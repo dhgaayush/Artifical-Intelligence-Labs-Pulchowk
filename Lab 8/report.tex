@@ -87,7 +87,7 @@ and Computer Engineering
 
 \section*{1. Objectives}
 
-\begin{enumerate}
+\begin{enumerate}[leftmargin=1.6em]
   \item To build a complete machine learning pipeline on the Iris dataset, splitting the data into training, validation, and test sets, and to understand why the test set must be kept separate from model/hyperparameter selection.
   \item To train and compare a generative model (Gaussian Naive Bayes) and a discriminative model (Logistic Regression) on the same data and evaluate them fairly on a validation set.
   \item To study model capacity using Decision Tree classifiers of varying \texttt{max\_depth}, and to identify settings that underfit and settings that overfit.
@@ -270,7 +270,7 @@ As $C$ decreases (stronger regularization, more MAP-like), the norm of the learn
 
 \section*{10. Questions to be Answered}
 
-\begin{enumerate}
+\begin{enumerate}[leftmargin=1.6em]
 \item \textbf{Why can a model have very high training accuracy but lower validation accuracy?} This happens when the model has enough capacity to memorize patterns -- including noise and idiosyncrasies -- that are specific to the training set. Those memorized patterns do not generalize, so performance drops on the validation set, which the model has never seen. This is overfitting, and the size of the train--validation gap is a direct measure of it.
 
 \item \textbf{Why is a validation set useful when choosing hyperparameters?} It gives an estimate of generalization performance for each candidate hyperparameter setting without ever touching the test set. If hyperparameters were tuned directly against the test set instead, the test accuracy would no longer be an unbiased estimate of performance on new data, since the choice would already be fitted to that specific set.

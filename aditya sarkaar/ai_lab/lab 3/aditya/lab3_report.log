@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.3)  3 SEP 2026 09:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.3)  3 SEP 2026 08:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**lab5_report_aditya.tex
-(./lab5_report_aditya.tex
+**lab3_report.tex
+(./lab3_report.tex
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/base/article.cls
@@ -461,9 +461,9 @@ Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 110.
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 11
-2.
+Package hyperref Info: Option `colorlinks' set `true' on input line 95.
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 97
+.
 
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
@@ -472,27 +472,27 @@ File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ef
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count326
-) (./lab5_report_aditya.aux)
-\openout1 = `lab5_report_aditya.aux'.
+) (./lab3_report.aux)
+\openout1 = `lab3_report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 97.
+LaTeX Font Info:    ... okay on input line 97.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -553,24 +553,23 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \c@lstlisting=\count333
-Package hyperref Info: Link coloring ON on input line 112.
- (./lab5_report_aditya.out) (./lab5_report_aditya.out)
+Package hyperref Info: Link coloring ON on input line 97.
+ (./lab3_report.out) (./lab3_report.out)
 \@outlinefile=\write3
-\openout3 = `lab5_report_aditya.out'.
+\openout3 = `lab3_report.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-<../emblem.png, id=52, 636.6987pt x 752.0898pt>
-File: ../emblem.png Graphic file (type png)
-<use ../emblem.png>
-Package pdftex.def Info: ../emblem.png  used on input line 121.
+<../../emblem.png, id=112, 636.6987pt x 752.0898pt>
+File: ../../emblem.png Graphic file (type png)
+<use ../../emblem.png>
+Package pdftex.def Info: ../../emblem.png  used on input line 106.
 (pdftex.def)             Requested size: 113.81102pt x 134.42929pt.
  [1
 
 {/usr/local/texlive/2026basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/us
-r/local/texlive/2026basic/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc} <../emblem.p
-ng>]
-(./lab5_report_aditya.toc
+r/local/texlive/2026basic/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc} <../../emble
+m.png>] (./lab3_report.toc
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 3
 .
 
@@ -612,7 +611,7 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 3.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ))
 \tf@toc=\write4
-\openout4 = `lab5_report_aditya.toc'.
+\openout4 = `lab3_report.toc'.
 
 
 
@@ -623,17 +622,16 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [2]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
-71.
- (/usr/local/texlive/2026basic/texmf-dist/tex/latex/lm/t1lmtt.fd
-File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
-82.
-
-(/usr/local/texlive/2026basic/texmf-dist/tex/latex/lm/ts1lmr.fd
+78.
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
+Overfull \hbox (47.06291pt too wide) in paragraph at lines 190--192
+\T1/lmr/bx/n/12 Architecture: $[] \OT1/lmr/m/n/12 + [] \OMS/lmsy/m/n/12 ! [] ! 
+[] !
+ []
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -641,36 +639,25 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[3{/usr/local/texlive/2026basic/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/
-local/texlive/2026basic/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local
-/texlive/2026basic/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/
-2026basic/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}]
-(/usr/local/texlive/2026basic/texmf-dist/tex/latex/listings/lstlang1.sty
+[3{/usr/local/texlive/2026basic/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/u
+sr/local/texlive/2026basic/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/local
+/texlive/2026basic/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}]
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/lm/t1lmtt.fd)
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[4] (/usr/local/texlive/2026basic/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
-)
-(/usr/local/texlive/2026basic/texmf-dist/tex/latex/listings/lstlang2.sty
-File: lstlang2.sty 2025/11/14 1.11b listings language file
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 235.
-
-(./1.pl)
-Overfull \hbox (5.2856pt too wide) in paragraph at lines 242--242
- []\T1/lmtt/m/n/10.95 $ swipl -q -t "solution(S,E,N,D,M,O,R,Y), writeln([S,E,N,
-D,M,O,R,Y])." 1.pl[] 
- []
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[4] (./map_coloring.pl
+nput line 278.
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 33.
-)
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 279.
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -678,10 +665,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[5] (/usr/local/texlive/2026basic/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2025/11/14 1.11b listings language file
-)
-(./map_coloring.py
+[5]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -689,11 +673,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[6])
-Overfull \hbox (6.43207pt too wide) in paragraph at lines 295--304
- [][] 
- []
-
+[6]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -702,9 +682,72 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [7]
-Overfull \hbox (4.21129pt too wide) in paragraph at lines 311--312
-[]\T1/lmr/m/n/12 The Python ver-sion is con-cise: it gen-er-ates all pos-si-ble
- colour-ings with \T1/lmtt/m/n/12 itertools.product
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[8]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[9]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[10]
+Overfull \hbox (45.65506pt too wide) in paragraph at lines 491--492
+[][][][] 
+ []
+
+
+Overfull \hbox (45.65506pt too wide) in paragraph at lines 493--495
+[][][][] 
+ []
+
+
+Overfull \hbox (45.65506pt too wide) in paragraph at lines 496--497
+[][][][] 
+ []
+
+
+Overfull \hbox (45.65506pt too wide) in paragraph at lines 502--503
+[][][][] 
+ []
+
+
+Overfull \hbox (45.65506pt too wide) in paragraph at lines 504--506
+[][][][] 
+ []
+
+
+Overfull \hbox (45.65506pt too wide) in paragraph at lines 507--508
+[][][][] 
+ []
+
+
+Overfull \hbox (45.65506pt too wide) in paragraph at lines 513--514
+[][][][] 
+ []
+
+
+Overfull \hbox (45.65506pt too wide) in paragraph at lines 515--517
+[][][][] 
+ []
+
+
+Overfull \hbox (45.65506pt too wide) in paragraph at lines 518--519
+[][][][] 
  []
 
 
@@ -714,38 +757,70 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[8] (./lab5_report_aditya.aux)
+[11]
+Overfull \hbox (45.65506pt too wide) in paragraph at lines 524--525
+[][][][] 
+ []
+
+
+Overfull \hbox (45.65506pt too wide) in paragraph at lines 526--528
+[][][][] 
+ []
+
+
+Underfull \hbox (badness 6204) in paragraph at lines 553--553
+[]|\T1/lmr/m/n/12 Does Noth-ing (re-mem-bers it's
+ []
+
+
+Underfull \hbox (badness 6204) in paragraph at lines 553--553
+[]|\T1/lmr/m/n/12 Does Noth-ing (re-mem-bers it's
+ []
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[12]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[13] (./lab3_report.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
-Package rerunfilecheck Info: File `lab5_report_aditya.out' has not changed.
-(rerunfilecheck)             Checksum: D8CC921D8A37293C4131DE0D4EFE5350;1477.
+Package rerunfilecheck Info: File `lab3_report.out' has not changed.
+(rerunfilecheck)             Checksum: 86B9AF912BC19D63A9FD79FD41928DB5;3738.
  ) 
 Here is how much of TeX's memory you used:
- 15098 strings out of 469006
- 232719 string characters out of 5454814
- 1019871 words of memory out of 5000000
- 43425 multiletter control sequences out of 15000+600000
+ 15128 strings out of 469006
+ 232836 string characters out of 5454814
+ 1151011 words of memory out of 5000000
+ 43369 multiletter control sequences out of 15000+600000
  685958 words of font info for 77 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 69i,13n,79p,532b,2287s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 69i,13n,79p,525b,2224s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></u
-sr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/lo
-cal/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/local/te
-xlive/2026basic/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/
-2026basic/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2026bas
-ic/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2026basic/texm
-f-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2026basic/texmf-dis
-t/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2026basic/texmf-dist/fon
-ts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/ty
-pe1/public/lm/lmtt10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/p
-ublic/lm/lmtt12.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public
-/lm/lmtti10.pfb>
-Output written on lab5_report_aditya.pdf (8 pages, 681145 bytes).
+sr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/loc
+al/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texl
+ive/2026basic/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2
+026basic/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2026ba
+sic/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/local/texlive/2026basic/t
+exmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/local/texlive/2026basic/texmf-
+dist/fonts/type1/public/lm/lmtt12.pfb></usr/local/texlive/2026basic/texmf-dist/
+fonts/type1/public/lm/lmtti10.pfb>
+Output written on lab3_report.pdf (13 pages, 662471 bytes).
 PDF statistics:
- 338 PDF objects out of 1000 (max. 8388607)
- 297 compressed objects within 3 object streams
- 149 named destinations out of 1000 (max. 500000)
- 102 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 523 PDF objects out of 1000 (max. 8388607)
+ 481 compressed objects within 5 object streams
+ 251 named destinations out of 1000 (max. 500000)
+ 222 words of extra memory for PDF output out of 10000 (max. 10000000)
 

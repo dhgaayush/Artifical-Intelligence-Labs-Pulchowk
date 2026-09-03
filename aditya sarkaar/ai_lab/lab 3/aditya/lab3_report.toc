@@ -1,0 +1,27 @@
+\contentsline {section}{\numberline {1}Objectives}{3}{section.1}%
+\contentsline {section}{\numberline {2}Theoretical Background}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Intelligent Agents}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Simple Reflex Agent}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Model-Based Agent}{3}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Vacuum Cleaner World Problem}{4}{subsection.2.4}%
+\contentsline {section}{\numberline {3}Program 1 --- Simple Reflex Agent}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Problem Statement}{5}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Rule Table}{5}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Algorithm}{5}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Python Implementation}{5}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Output}{6}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Discussion}{6}{subsection.3.6}%
+\contentsline {section}{\numberline {4}Program 2 --- Model-Based Agent}{7}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Problem Statement}{7}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}World Model}{7}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Rule Table}{7}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Algorithm}{7}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Python Implementation}{8}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Output}{8}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}Discussion}{9}{subsection.4.7}%
+\contentsline {section}{\numberline {5}Program 3 --- Comparison of Both Agents}{10}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Problem Statement}{10}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Python Implementation}{10}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Output}{11}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Discussion}{12}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Conclusion}{13}{section.6}%

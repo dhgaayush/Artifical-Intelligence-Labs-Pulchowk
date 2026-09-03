@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.1)  6 JUL 2026 11:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.3)  3 SEP 2026 09:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -92,7 +92,7 @@ Package: iftex 2024/12/12 v1.0g TeX engine tests
 \Gm@layoutvoffset=\dimen156
 \Gm@dimlist=\toks20
 )
-(/Users/owner/Library/texmf/tex/latex/xcolor/xcolor.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
 
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics-cfg/color.cfg
@@ -567,9 +567,9 @@ Package pdftex.def Info: ../emblem.png  used on input line 106.
 (pdftex.def)             Requested size: 113.81102pt x 134.42929pt.
  [1
 
-{/Users/owner/Library/texlive/2026basic/texmf-var/fonts/map/pdftex/updmap/pdfte
-x.map}{/usr/local/texlive/2026basic/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc} <.
-./emblem.png>] (./lab4_report.toc
+{/usr/local/texlive/2026basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/us
+r/local/texlive/2026basic/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc} <../emblem.p
+ng>] (./lab4_report.toc
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 3
 .
 
@@ -849,8 +849,8 @@ Package rerunfilecheck Info: File `lab4_report.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  15316 strings out of 469006
- 234765 string characters out of 5454814
- 984295 words of memory out of 5000000
+ 234804 string characters out of 5454814
+ 984289 words of memory out of 5000000
  43406 multiletter control sequences out of 15000+600000
  689901 words of font info for 77 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
@@ -868,7 +868,7 @@ pe1/public/lm/lmsy6.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/pu
 blic/lm/lmsy8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/l
 m/lmtk10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/lm/lmt
 t10.pfb>
-Output written on lab4_report.pdf (23 pages, 706079 bytes).
+Output written on lab4_report.pdf (23 pages, 705302 bytes).
 PDF statistics:
  862 PDF objects out of 1000 (max. 8388607)
  799 compressed objects within 8 object streams

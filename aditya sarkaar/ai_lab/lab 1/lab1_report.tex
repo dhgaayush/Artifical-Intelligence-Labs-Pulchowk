@@ -1,0 +1,684 @@
+\documentclass[12pt,a4paper]{article}
+
+% Available Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{setspace}
+\usepackage{parskip}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{multicol}
+
+% Geometry
+\geometry{left=2.5cm, right=2.5cm, top=3cm, bottom=3cm}
+
+% Colors
+\definecolor{prologblue}{RGB}{0,0,0}
+\definecolor{cppgray}{RGB}{60,60,60}
+\definecolor{outputgreen}{RGB}{0,200,0}
+\definecolor{lightgray}{RGB}{245,245,245}
+
+% Listings style for Prolog
+\lstdefinestyle{prolog}{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{prologblue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{red},
+    numberstyle=\tiny\color{gray},
+    numbers=left,
+    numbersep=8pt,
+    frame=single,
+    backgroundcolor=\color{lightgray},
+    breaklines=true,
+    showstringspaces=false,
+    tabsize=2,
+    captionpos=b,
+    xleftmargin=15pt,
+    framexleftmargin=15pt
+}
+
+% Listings style for C++
+\lstdefinestyle{cpp}{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{cppgray}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{red},
+    numberstyle=\tiny\color{gray},
+    numbers=left,
+    numbersep=8pt,
+    frame=single,
+    backgroundcolor=\color{lightgray},
+    breaklines=true,
+    showstringspaces=false,
+    tabsize=2,
+    captionpos=b,
+    morekeywords={cout, endl, vector},
+    xleftmargin=15pt,
+    framexleftmargin=15pt
+}
+
+% Output listing style
+\lstdefinestyle{output}{
+    basicstyle=\ttfamily\small\color{outputgreen},
+    backgroundcolor=\color{black},
+    frame=single,
+    breaklines=true,
+    captionpos=b,
+    xleftmargin=0pt,
+    framexleftmargin=0pt
+}
+
+% Header/Footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{Lab Report --- Introduction to Prolog}}
+\fancyhead[R]{\small\textit{Chandan Kumar Shah (080BCT023)}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Custom section formatting
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{\z@}%
+  {-3.5ex \@plus -1ex \@minus -.2ex}%
+  {2.3ex \@plus.2ex}%
+  {\normalfont\Large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\large\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries}}
+\makeatother
+
+\begin{document}
+
+% ==================== COVER PAGE ====================
+\thispagestyle{empty}
+\begin{center}
+
+\vspace*{0.5cm}
+\includegraphics[width=0.25\textwidth]{emblem.png}\\[0.5cm]
+
+{\Large\textbf{TRIBHUVAN UNIVERSITY}}\\[0.2cm]
+{\large\textbf{INSTITUTE OF ENGINEERING}}\\[0.2cm]
+{\large\textbf{PULCHOWK CAMPUS}}\\[1cm]
+
+\rule{\textwidth}{1.5pt}\\[0.5cm]
+{\Huge\bfseries INTRODUCTION TO PROLOG}\\[0.3cm]
+{\LARGE\bfseries Lab 1 Report}\\[0.2cm]
+\rule{\textwidth}{1.5pt}\\[1cm]
+
+\vspace{0.5cm}
+
+\begin{minipage}[t]{0.45\textwidth}
+\begin{flushleft}
+\textbf{\Large Submitted By:}\\[0.5cm]
+{\large Name: \textbf{Chandan Kumar Shah}}\\[0.3cm]
+{\large Roll No: \textbf{080BCT023}}\\[0.3cm]
+{\large Date: \textbf{2082-02-25}}
+\end{flushleft}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\textwidth}
+\begin{flushright}
+\textbf{\Large Submitted To:}\\[0.5cm]
+{\large Department of Electronics}\\[0.3cm]
+{\large and Computer Engineering}\\[0.3cm]
+{\large Institute of Engineering, Pulchowk Campus}
+\end{flushright}
+\end{minipage}
+
+\vfill
+
+{\large\textbf{Subject: Artificial Intelligence}}
+
+\end{center}
+\newpage
+
+% ==================== TABLE OF CONTENTS ====================
+\tableofcontents
+\newpage
+
+% ==================== 1. OBJECTIVES ====================
+\section{Objectives}
+
+The primary objectives of this laboratory exercise are:
+
+\begin{enumerate}
+    \item To revise and strengthen the fundamental concepts of predicates and clauses in logic programming.
+    \item To understand the declarative nature of the Prolog programming language and its application in artificial intelligence.
+    \item To implement various logical programs in Prolog and compare them with procedural (C++) equivalents.
+    \item To gain hands-on experience with Prolog's unification, backtracking, and recursion mechanisms.
+    \item To appreciate the differences between declarative and imperative programming paradigms.
+\end{enumerate}
+
+% ==================== 2. THEORETICAL BACKGROUND ====================
+\section{Theoretical Background}
+
+\subsection{What is Prolog?}
+
+Prolog (\textbf{Pro}grammation en \textbf{Log}ique) is a declarative, logic-based programming language that plays a pivotal role in artificial intelligence (AI) and computational linguistics. Unlike procedural languages such as C, C++, or Java, Prolog is based on formal logic---specifically, a subset of first-order predicate calculus known as Horn clauses. It was originally developed in 1972 by Alain Colmerauer and Philippe Roussel at the University of Aix-Marseille in France.
+
+Prolog operates on the principle of \textit{what} to compute rather than \textit{how} to compute. The programmer defines a set of facts and rules that describe relationships and constraints, and the Prolog inference engine uses logical deduction and backtracking to derive answers to user queries. This declarative paradigm makes Prolog particularly well-suited for applications involving:
+
+\begin{itemize}
+    \item Expert systems and knowledge representation
+    \item Natural language processing (NLP)
+    \item Automated theorem proving
+    \item Database query languages
+    \item Artificial intelligence and symbolic computation
+    \item Constraint satisfaction problems
+\end{itemize}
+
+\subsection{Fundamental Concepts in Prolog}
+
+\subsubsection{Atoms}
+Atoms are basic constants that represent specific entities. They are strings of letters, digits, and underscores that begin with a lowercase letter.
+\begin{itemize}
+    \item Examples: \texttt{john}, \texttt{parent}, \texttt{comp\_students}
+    \item Atoms enclosed in single quotes can start with uppercase: \texttt{'Ram'}, \texttt{'Bird'}
+    \item Special character strings: \texttt{<-->}, \texttt{:::::::::::}
+\end{itemize}
+
+\subsubsection{Numbers}
+Prolog supports both integers and real (floating-point) numbers:
+\begin{itemize}
+    \item Integers: \texttt{42}, \texttt{-7}, \texttt{0}
+    \item Real numbers: \texttt{3.14}, \texttt{-2.5}, \texttt{1.0e10}
+\end{itemize}
+
+\subsubsection{Variables}
+Variables represent unknown or placeholder values. They begin with an uppercase letter or an underscore:
+\begin{itemize}
+    \item Examples: \texttt{X}, \texttt{Result}, \texttt{\_weight}
+    \item The scope of a variable is limited to a single clause.
+    \item The anonymous variable \texttt{\_} is used when a value is not needed elsewhere.
+\end{itemize}
+
+\subsubsection{Facts}
+Facts are unconditionally true statements about the domain. They assert relationships between objects.
+\begin{lstlisting}[style=prolog, caption={Example facts}]
+parent(john, mary).
+parent(john, tom).
+male(john).
+female(mary).
+\end{lstlisting}
+
+\subsubsection{Rules}
+Rules define relationships conditionally, based on other facts and rules. They consist of a \textit{head} (conclusion) and a \textit{body} (premises), connected by the \texttt{:-} operator (read as ``if'').
+\begin{lstlisting}[style=prolog, caption={Example rules}]
+father(F, C) :- parent(F, C), male(F).
+grandparent(X, Z) :- parent(X, Y), parent(Y, Z).
+sibling(X, Y) :- parent(Z, X), parent(Z, Y), X \= Y.
+\end{lstlisting}
+
+\subsubsection{Queries}
+Queries are questions posed to the Prolog system to determine whether a statement is true or to find values that satisfy given conditions.
+\begin{lstlisting}[style=prolog, caption={Example queries}]
+?- father(john, mary).
+% Output: true
+
+?- grandparent(john, anna).
+% Output: true
+\end{lstlisting}
+
+\subsection{List Structure in Prolog}
+Lists are one of the most important data structures in Prolog. A list is enclosed in square brackets and can contain any Prolog terms:
+\begin{lstlisting}[style=prolog, caption={List structure}]
+% A simple list
+[ram, shyam, hari, sita]
+
+% Head and Tail decomposition
+[H | T]
+% H = ram,  T = [shyam, hari, sita]
+
+% Nested structure
+[ram | [shyam, hari, sita]]
+\end{lstlisting}
+
+Lists in Prolog are internally represented as binary trees, where the head is the first element and the tail is the remaining list. This recursive structure enables elegant pattern matching and recursive processing.
+
+\subsection{Key Operators}
+\begin{table}[H]
+\centering
+\caption{Key Prolog Operators}
+\begin{tabular}{lll}
+\toprule
+\textbf{Operator} & \textbf{Symbol} & \textbf{Meaning} \\
+\midrule
+Conjunction & \texttt{,} & AND \\
+Disjunction & \texttt{;} & OR \\
+Unification & \texttt{=} & Pattern matching \\
+Not equal & \texttt{\textbackslash=}, \texttt{<\textgreater>} & Inequality \\
+Anonymous & \texttt{\_} & Don't care variable \\
+Cut & \texttt{!} & Prevent backtracking \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Prolog vs. Procedural Programming}
+\begin{table}[H]
+\centering
+\caption{Comparison: Prolog vs. Procedural Languages}
+\begin{tabular}{p{5cm}p{5cm}}
+\toprule
+\textbf{Prolog (Declarative)} & \textbf{C/C++ (Procedural)} \\
+\midrule
+Defines \textit{what} the problem is & Defines \textit{how} to solve it \\
+Uses facts and rules & Uses statements and instructions \\
+Inference engine handles execution flow & Programmer controls flow \\
+Backtracking explores alternatives & Explicit loops and conditionals \\
+Pattern matching via unification & Explicit variable comparison \\
+Recursive decomposition & Iterative or recursive functions \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ==================== 3. DISCUSSION / IMPLEMENTATIONS ====================
+\newpage
+\section{Program Implementations and Discussion}
+
+\subsection{Program 1: HCF (GCD) of Two Numbers}
+
+\subsubsection{Problem Statement}
+Find the Highest Common Factor (HCF) of two numbers using the Euclidean algorithm implemented in Prolog.
+
+\subsubsection{Mathematical Basis}
+The Euclidean algorithm is based on the principle that the HCF of two numbers also divides their difference. More formally:
+\[
+\text{HCF}(X, Y) = \begin{cases} X & \text{if } Y = 0 \\ \text{HCF}(Y, X \bmod Y) & \text{if } Y > 0 \end{cases}
+\]
+
+\subsubsection{Prolog Code}
+\begin{lstlisting}[style=prolog, caption={HCF computation in Prolog}]
+% Assignment 1: HCF (GCD) of two numbers
+% Usage: hcf(36, 24, R). -> R = 12
+
+hcf(X, 0, X) :- X > 0.
+hcf(X, Y, R) :-
+    Y > 0,
+    Rem is X mod Y,
+    hcf(Y, Rem, R).
+
+hcf(0, Y, Y) :- Y > 0.
+\end{lstlisting}
+
+\subsubsection{C++ Equivalent}
+\begin{lstlisting}[style=cpp, caption={HCF computation in C++}]
+#include <iostream>
+using namespace std;
+
+int hcf(int x, int y) {
+    if (y == 0) return x;
+    int r = x % y;
+    return hcf(y, r);
+}
+
+int main() {
+    int result = hcf(24, 36);
+    cout << "HCF = " << result << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\subsubsection{Output}
+\begin{lstlisting}[style=output, caption={Program 1 Output}]
+?- hcf(24, 36, H).
+HCF(24, 36) = 12
+\end{lstlisting}
+
+\subsubsection{Discussion}
+The Prolog program defines the logical rules required to compute the HCF. The first rule states that if the second number becomes zero, the first number is the HCF (base case). The second rule reduces the problem by replacing the pair $(X, Y)$ with $(Y, X \bmod Y)$ and recursing. The Prolog interpreter automatically applies the appropriate rule and continues the recursion until the base case is reached. In contrast, the C++ equivalent requires explicit function calls, conditional statements, and return values.
+
+\subsection{Program 2: Family Relationships (Facts, Rules, and Deductions)}
+
+\subsubsection{Problem Statement}
+Model family relationships using Prolog facts and rules, and deduce various relationships through queries.
+
+\subsubsection{Prolog Code}
+\begin{lstlisting}[style=prolog, caption={Family relationships in Prolog}]
+% Facts
+parent(john, mary).
+parent(john, tom).
+parent(mary, anna).
+parent(mary, peter).
+parent(tom, lisa).
+parent(anna, david).
+
+male(john). male(tom). male(peter). male(david).
+female(mary). female(anna). female(lisa).
+
+% Rules (deductions)
+father(F, C) :- parent(F, C), male(F).
+mother(M, C) :- parent(M, C), female(M).
+grandparent(GP, GC) :- parent(GP, P), parent(P, GC).
+sibling(A, B) :- parent(P, A), parent(P, B), A \= B.
+ancestor(A, D) :- parent(A, D).
+ancestor(A, D) :- parent(A, X), ancestor(X, D).
+\end{lstlisting}
+
+\subsubsection{C++ Equivalent}
+\begin{lstlisting}[style=cpp, caption={Family relationships in C++}]
+#include <iostream>
+using namespace std;
+
+int main() {
+    bool ramFootball = true, shyamFootball = true;
+    if (ramFootball && shyamFootball)
+        cout << "Ram and Shyam are friends" << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\subsubsection{Output}
+\begin{lstlisting}[style=output, caption={Program 2 Output}]
+?- father(john, mary).
+true
+
+?- grandparent(john, anna).
+true
+
+?- sibling(mary, tom).
+true
+
+?- ancestor(john, david).
+true
+\end{lstlisting}
+
+\subsubsection{Discussion}
+In Prolog, facts and rules declaratively encode family relationships. The inference engine automatically deduces relationships through unification and backtracking. For example, querying \texttt{grandparent(john, anna)} causes Prolog to chain the rules: \texttt{parent(john, mary), parent(mary, anna)} $\rightarrow$ \texttt{true}. In C++, such relational reasoning requires explicit data structures and procedural logic.
+
+\subsection{Program 3: Sum of an Integer List}
+
+\subsubsection{Problem Statement}
+Compute the sum of all elements in an integer list using recursive decomposition.
+
+\subsubsection{Mathematical Basis}
+The sum of a list can be defined recursively:
+\[
+\text{sum\_list}([]) = 0
+\]
+\[
+\text{sum\_list}([H|T]) = H + \text{sum\_list}(T)
+\]
+
+\subsubsection{Prolog Code}
+\begin{lstlisting}[style=prolog, caption={Sum of list in Prolog}]
+% Usage: sum_list([1, 2, 3, 4], S). -> S = 10
+
+sum_list([], 0).
+sum_list([H | T], Sum) :-
+    sum_list(T, TailSum),
+    Sum is H + TailSum.
+\end{lstlisting}
+
+\subsubsection{C++ Equivalent}
+\begin{lstlisting}[style=cpp, caption={Sum of list in C++}]
+#include <iostream>
+using namespace std;
+
+int main() {
+    int a[] = {1, 2, 3, 4, 5};
+    int sum = 0;
+    for (int i = 0; i < 5; i++) sum += a[i];
+    cout << "Sum = " << sum << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\subsubsection{Output}
+\begin{lstlisting}[style=output, caption={Program 3 Output}]
+?- sum_list([1, 2, 3, 4, 5], S).
+S = 15
+\end{lstlisting}
+
+\subsubsection{Discussion}
+The Prolog program defines the mathematical relationship between a list and its sum using recursion. The base case returns 0 for an empty list, and the recursive case adds the head element to the sum of the tail. The interpreter automatically evaluates the recursive rule through backtracking. In C++, a \texttt{for} loop is explicitly written to traverse the array and accumulate the sum.
+
+\subsection{Program 4: Length of a List}
+
+\subsubsection{Problem Statement}
+Determine the number of elements in a list using recursive counting.
+
+\subsubsection{Mathematical Basis}
+\[
+\text{list\_length}([]) = 0
+\]
+\[
+\text{list\_length}([\_|T]) = 1 + \text{list\_length}(T)
+\]
+
+\subsubsection{Prolog Code}
+\begin{lstlisting}[style=prolog, caption={List length in Prolog}]
+% Usage: list_length([a, b, c, d], L). -> L = 4
+
+list_length([], 0).
+list_length([_ | T], Len) :-
+    list_length(T, TailLen),
+    Len is TailLen + 1.
+\end{lstlisting}
+
+\subsubsection{C++ Equivalent}
+\begin{lstlisting}[style=cpp, caption={List length in C++}]
+#include <iostream>
+using namespace std;
+
+int main() {
+    int a[] = {1, 2, 3, 4, 5};
+    cout << "Length = "
+         << sizeof(a) / sizeof(a[0]) << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\subsubsection{Output}
+\begin{lstlisting}[style=output, caption={Program 4 Output}]
+?- list_length([1, 2, 3, 4, 5], L).
+L = 5
+\end{lstlisting}
+
+\subsubsection{Discussion}
+In Prolog, list length is obtained recursively by counting elements until the empty list (base case) is reached. The anonymous variable \texttt{\_} in the head position indicates we do not need the value of individual elements---only the count. In C++, the programmer directly calculates the size of the array using \texttt{sizeof} or iterates through it with a counter.
+
+\subsection{Program 5: Append Two Lists}
+
+\subsubsection{Problem Statement}
+Concatenate two lists into a single list using recursive construction.
+
+\subsubsection{Mathematical Basis}
+\[
+\text{append\_lists}([], L_2) = L_2
+\]
+\[
+\text{append\_lists}([H|T], L_2) = [H | \text{append\_lists}(T, L_2)]
+\]
+
+\subsubsection{Prolog Code}
+\begin{lstlisting}[style=prolog, caption={List appending in Prolog}]
+% Usage: append_lists([1, 2], [3, 4], R).
+%        -> R = [1, 2, 3, 4]
+
+append_lists([], L, L).
+append_lists([H | T], L2, [H | Result]) :-
+    append_lists(T, L2, Result).
+\end{lstlisting}
+
+\subsubsection{C++ Equivalent}
+\begin{lstlisting}[style=cpp, caption={List appending in C++}]
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<int> a = {1, 2, 3};
+    vector<int> b = {4, 5, 6};
+    a.insert(a.end(), b.begin(), b.end());
+    for (int x : a) cout << x << " ";
+    cout << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\subsubsection{Output}
+\begin{lstlisting}[style=output, caption={Program 5 Output}]
+?- append_lists([1, 2, 3], [4, 5, 6], R).
+R = [1, 2, 3, 4, 5, 6]
+\end{lstlisting}
+
+\subsubsection{Discussion}
+The Prolog solution recursively constructs a new list by attaching elements from the first list before the second list. The base case is trivial: appending an empty list to any list yields that list. The recursive case takes the head of the first list and places it before the result of appending the tail. In C++, list concatenation is performed using vector operations and explicit library functions.
+
+\subsection{Program 6: Filter a List (Keep Only 1s and 2s)}
+
+\subsubsection{Problem Statement}
+Given a list of integers, filter out all elements except those equal to 1 or 2.
+
+\subsubsection{Prolog Code}
+\begin{lstlisting}[style=prolog, caption={Filtering in Prolog}]
+% Usage: filter_ones_twos([1,2,4,5,2,4,5,1,1], R).
+%        -> R = [1, 2, 2, 1, 1]
+
+filter_ones_twos([], []).
+filter_ones_twos([H | T], [H | R]) :-
+    (H = 1 ; H = 2),
+    filter_ones_twos(T, R).
+filter_ones_twos([H | T], R) :-
+    H \= 1,
+    H \= 2,
+    filter_ones_twos(T, R).
+\end{lstlisting}
+
+\subsubsection{C++ Equivalent}
+\begin{lstlisting}[style=cpp, caption={Filtering in C++}]
+#include <iostream>
+using namespace std;
+
+int main() {
+    int a[] = {1, 2, 4, 5, 2, 4, 5, 1, 1};
+    for (int x : a)
+        if (x == 1 || x == 2)
+            cout << x << " ";
+    cout << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\subsubsection{Output}
+\begin{lstlisting}[style=output, caption={Program 6 Output}]
+?- filter_ones_twos([1,2,4,5,2,4,5,1,1], R).
+R = [1, 2, 2, 1, 1]
+\end{lstlisting}
+
+\subsubsection{Discussion}
+The Prolog program filters elements through logical rules and pattern matching. Values other than 1 and 2 are discarded automatically by the appropriate rule. The disjunction \texttt{(H = 1 ; H = 2)} in the second clause allows either match. In C++, each element is explicitly checked using conditional statements. Prolog performs declarative filtering, while C++ performs procedural filtering.
+
+\subsection{Program 7: Delete an Element from a List}
+
+\subsubsection{Problem Statement}
+Remove all occurrences of a specified element from a list using recursive pattern matching.
+
+\subsubsection{Prolog Code}
+\begin{lstlisting}[style=prolog, caption={Element deletion in Prolog}]
+% Usage: delete_element(3, [1,2,3,4,3,5], R).
+%        -> R = [1,2,4,5]
+
+delete_element(_, [], []).
+delete_element(X, [X | T], R) :- !, delete_element(X, T, R).
+delete_element(X, [H | T], [H | R]) :- delete_element(X, T, R).
+\end{lstlisting}
+
+\subsubsection{C++ Equivalent}
+\begin{lstlisting}[style=cpp, caption={Element deletion in C++}]
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<int> v = {1, 2, 3, 4, 3, 5};
+    vector<int> r;
+    for (int x : v)
+        if (x != 3) r.push_back(x);
+    for (int x : r) cout << x << " ";
+    cout << endl;
+    return 0;
+}
+\end{lstlisting}
+
+\subsubsection{Output}
+\begin{lstlisting}[style=output, caption={Program 7 Output}]
+?- delete_element(3, [1, 2, 3, 4, 3, 5], R).
+R = [1, 2, 4, 5]
+\end{lstlisting}
+
+\subsubsection{Discussion}
+In Prolog, deletion is achieved by recursively rebuilding the list while skipping matching elements. The cut operator \texttt{(!)} in the second clause prevents backtracking, ensuring efficiency. The logic specifies what the resulting list should contain, not how to construct it. In C++, the programmer explicitly iterates through the collection and copies only the required elements.
+
+% ==================== 4. COMPARISON TABLE ====================
+\newpage
+\section{Summary of Prolog vs. C++ Implementations}
+
+\begin{table}[H]
+\centering
+\caption{Comparative Summary of All Programs}
+\begin{tabular}{p{3.5cm}p{5cm}p{5cm}}
+\toprule
+\textbf{Program} & \textbf{Prolog Approach} & \textbf{C++ Approach} \\
+\midrule
+HCF & Recursive Euclidean algorithm via clauses & Recursive function with explicit modulo \\
+Family Relationships & Declarative facts and rules with inference engine & Explicit data structures and conditional checks \\
+Sum of List & Recursive decomposition: head + tail sum & Iterative loop with accumulator \\
+List Length & Recursive counting with anonymous variable & \texttt{sizeof} operator or loop counter \\
+Append Lists & Recursive list construction via pattern matching & Vector \texttt{insert} operation \\
+Filter 1s \& 2s & Pattern matching with disjunctive rules & Conditional \texttt{if} inside loop \\
+Delete Element & Recursive rebuild with cut operator & Loop with conditional push\_back \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ==================== 5. CONCLUSION ====================
+\section{Conclusion}
+
+This laboratory exercise provided comprehensive hands-on experience with the Prolog programming language and its fundamental concepts. Through the implementation of seven distinct programs, we explored:
+
+\begin{itemize}
+    \item \textbf{Declarative programming paradigm:} Prolog programs define relationships and constraints rather than step-by-step instructions. The Prolog inference engine handles execution flow through unification and backtracking.
+
+    \item \textbf{Recursive decomposition:} All list-based programs (sum, length, append, filter, delete) demonstrate the elegance of recursive thinking in Prolog, where the base case and recursive case naturally express the problem.
+
+    \item \textbf{Pattern matching:} Prolog's pattern matching through unification provides a powerful mechanism for data decomposition, particularly evident in list processing.
+
+    \item \textbf{Knowledge representation:} The family relationships program demonstrates how Prolog can model complex relational knowledge through simple facts and rules.
+
+    \item \textbf{Comparison with procedural languages:} The contrast between Prolog and C++ implementations highlights the fundamental differences between declarative and imperative programming paradigms.
+\end{itemize}
+
+The rule-based predicates and clauses demonstrate the declarative nature of Prolog. Here, we do not define explicit loops; rather, the rules are recursively implemented and terminate upon encountering the base case. The use of logic rules allows the generation of new facts from the given facts. While Prolog focuses on describing relationships and logical conditions, C++ requires explicit control over the execution flow through loops, conditions, and functions.
+
+Through this lab, we gained practical experience in Prolog programming and developed a better understanding of how logic programming differs from conventional programming approaches.
+
+% ==================== REFERENCES ====================
+\section{References}
+
+\begin{enumerate}
+    \item Bratko, I. (2012). \textit{Prolog Programming for Artificial Intelligence} (4th ed.). Pearson Education.
+    \item Clocksin, W. F., \& Mellish, C. S. (2003). \textit{Programming in Prolog} (5th ed.). Springer-Verlag.
+    \item Sterling, L., \& Shapiro, E. (1994). \textit{The Art of Prolog: Advanced Programming Techniques} (2nd ed.). MIT Press.
+    \item Nilsson, U., \& Maluszynski, J. (1995). \textit{Logic, Programming and Prolog} (2nd ed.). John Wiley \& Sons.
+    \item SWI-Prolog Documentation. Available at: \url{https://www.swi-prolog.org/pldoc/}
+\end{enumerate}
+
+\end{document}

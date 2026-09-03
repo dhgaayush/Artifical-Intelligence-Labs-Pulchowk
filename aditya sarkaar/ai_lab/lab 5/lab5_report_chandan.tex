@@ -1,0 +1,340 @@
+\documentclass[12pt,a4paper]{article}
+
+% Available Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{setspace}
+\usepackage{parskip}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{multicol}
+
+% Geometry
+\geometry{left=2.5cm, right=2.5cm, top=3cm, bottom=3cm}
+
+% Colors
+\definecolor{prologblue}{RGB}{0,0,139}
+\definecolor{javagray}{RGB}{60,60,60}
+\definecolor{outputgreen}{RGB}{0,200,0}
+\definecolor{lightgray}{RGB}{245,245,245}
+\definecolor{darkgreen}{RGB}{0,120,60}
+\definecolor{darkred}{RGB}{160,30,30}
+
+% Simple listings style for Prolog
+\lstdefinestyle{prolog}{
+    language=Prolog,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{prologblue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{red},
+    numberstyle=\tiny\color{gray},
+    numbers=left,
+    numbersep=8pt,
+    frame=none,
+    breaklines=true,
+    showstringspaces=false,
+    tabsize=2,
+    captionpos=b,
+    xleftmargin=15pt
+}
+
+% Simple listings style for Python
+\lstdefinestyle{python}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{prologblue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{darkred},
+    numberstyle=\tiny\color{gray},
+    numbers=left,
+    numbersep=8pt,
+    frame=none,
+    breaklines=true,
+    showstringspaces=false,
+    tabsize=2,
+    captionpos=b,
+    morekeywords={True,False,None},
+    xleftmargin=15pt
+}
+
+% Simple output listing style
+\lstdefinestyle{output}{
+    basicstyle=\ttfamily\small,
+    frame=none,
+    breaklines=true,
+    captionpos=b,
+    xleftmargin=15pt
+}
+
+% Header/Footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{Lab Report --- Constraint Satisfaction Problems}}
+\fancyhead[R]{\small\textit{Chandan Kumar Shah (080BCT023)}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Custom section formatting
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{\z@}%
+  {-3.5ex \@plus -1ex \@minus -.2ex}%
+  {2.3ex \@plus.2ex}%
+  {\normalfont\Large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\large\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries}}
+\makeatother
+
+\begin{document}
+
+% ==================== COVER PAGE ====================
+\thispagestyle{empty}
+\begin{center}
+
+\vspace*{0.5cm}
+\includegraphics[width=0.25\textwidth]{../emblem.png}\\[0.5cm]
+
+{\Large\textbf{TRIBHUVAN UNIVERSITY}}\\[0.2cm]
+{\large\textbf{INSTITUTE OF ENGINEERING}}\\[0.2cm]
+{\large\textbf{PULCHOWK CAMPUS}}\\[1cm]
+
+\rule{\textwidth}{1.5pt}\\[0.5cm]
+{\Huge\bfseries CONSTRAINT SATISFACTION PROBLEMS}\\[0.3cm]
+{\LARGE\bfseries Crypto Arithmetic \& Map Colouring}\\[0.3cm]
+{\LARGE\bfseries Lab 5 Report}\\[0.2cm]
+\rule{\textwidth}{1.5pt}\\[1cm]
+
+\vspace{0.5cm}
+
+\begin{minipage}[t]{0.45\textwidth}
+\begin{flushleft}
+\textbf{\Large Submitted By:}\\[0.5cm]
+{\large Name: \textbf{Chandan Kumar Shah}}\\[0.3cm]
+{\large Roll No: \textbf{080BCT023}}\\[0.3cm]
+{\large Date: \textbf{2083-04-02}}
+\end{flushleft}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\textwidth}
+\begin{flushright}
+\textbf{\Large Submitted To:}\\[0.5cm]
+{\large Department of Electronics}\\[0.3cm]
+{\large and Computer Engineering}\\[0.3cm]
+{\large Institute of Engineering, Pulchowk Campus}
+\end{flushright}
+\end{minipage}
+
+\vfill
+
+{\large\textbf{Subject: Artificial Intelligence}}
+
+\end{center}
+\newpage
+
+% ==================== TABLE OF CONTENTS ====================
+\tableofcontents
+\newpage
+
+% ==================== 1. OBJECTIVES ====================
+\section{Objectives}
+
+The primary objectives of this laboratory exercise are:
+
+\begin{enumerate}
+    \item To understand the concept of \textbf{Constraint Satisfaction Problems (CSPs)} and how constraints limit the values variables may take.
+    \item To implement and solve the \textbf{Crypto Arithmetic Problem} (\texttt{SEND + MORE = MONEY}) using Prolog's constraint logic programming facilities.
+    \item To formulate and solve the \textbf{Australia Map Colouring Problem} as a CSP using Prolog.
+    \item To implement the same map colouring problem in Python using brute-force search.
+    \item To compare declarative and imperative approaches to solving CSPs.
+\end{enumerate}
+
+% ==================== 2. INTRODUCTION ====================
+\section{Introduction}
+
+A \textbf{Constraint Satisfaction Problem (CSP)} is defined by a set of variables, a domain of possible values for each variable, and a set of constraints that restrict the combinations of values the variables may take simultaneously.  Formally, a CSP is a triple $(X, D, C)$ where:
+
+\begin{itemize}
+    \item $X = \{x_1, x_2, \dots, x_n\}$ is the set of variables,
+    \item $D = \{D_1, D_2, \dots, D_n\}$ is the set of domains, with $D_i$ the possible values of $x_i$,
+    \item $C$ is the set of constraints, each specifying allowed combinations for a subset of variables.
+\end{itemize}
+
+A \textit{solution} is an assignment of each variable to a value from its domain such that every constraint is satisfied.  Many AI problems---scheduling, configuration, puzzle solving, and planning---can be naturally expressed as CSPs.
+
+\textbf{Constraint Logic Programming (CLP)} extends logic programming with constraint solving.  In SWI-Prolog, the \texttt{library(clpfd)} module provides finite-domain constraints such as \texttt{ins/2}, \texttt{all\_different/1}, and arithmetic constraints over integers, making it convenient to model CSPs declaratively.
+
+% ==================== 3. THEORY ====================
+\section{Theory}
+
+\subsection{Crypto Arithmetic Problem}
+
+Crypto arithmetic is a classic CSP in which each letter stands for a distinct digit.  The well-known puzzle \texttt{SEND + MORE = MONEY} is written column-wise (right to left) with carries $C_1, C_2, C_3, C_4 \in \{0,1\}$:
+
+\[
+\begin{array}{cccccc}
+     & S & E & N & D \\
+   + & M & O & R & E \\
+\hline
+   M & O & N & E & Y \\
+\end{array}
+\]
+
+The column equations are:
+\begin{align}
+    D + E &= Y + 10C_1 \\
+    N + R + C_1 &= E + 10C_2 \\
+    E + O + C_2 &= N + 10C_3 \\
+    S + M + C_3 &= O + 10C_4 \\
+    M &= C_4
+\end{align}
+
+Additional constraints are that all letters represent different digits and that leading digits $S$ and $M$ are non-zero.
+
+\subsection{Map Colouring Problem}
+
+The map-colouring problem asks whether a map can be coloured with a given number of colours so that no two adjacent regions share the same colour.  The Four Colour Theorem guarantees that any planar map can be coloured with at most four colours; our Australia map instance uses three colours.
+
+The Australia map can be modelled with seven variables (one per region) with domain \{red, green, blue\} and a \textit{different-colour} constraint for every pair of adjacent regions:
+
+\begin{itemize}
+    \item WA borders NT and SA.
+    \item NT borders WA, Q, and SA.
+    \item Q borders NT, NSW, and SA.
+    \item NSW borders Q, V, and SA.
+    \item V borders NSW and SA.
+    \item SA borders WA, NT, Q, NSW, and V.
+    \item Tasmania (T) is an island and has no mainland neighbours.
+\end{itemize}
+
+% ==================== 4. METHODOLOGY ====================
+\section{Methodology}
+
+The following tools and environment were used:
+
+\begin{itemize}
+    \item Operating System: macOS
+    \item Prolog interpreter: SWI-Prolog 10.0.2
+    \item Java SDK: OpenJDK 17
+    \item Editor / IDE: Any text editor with Prolog and Java syntax support
+\end{itemize}
+
+For each task, the problem was first modelled by identifying variables, domains, and constraints.  The Prolog implementation uses CLPFD constraints and backtracking search via \texttt{label/1}.  The Python implementation uses a brute-force search over the Cartesian product of colours.
+
+% ==================== 5. IMPLEMENTATION ====================
+\section{Implementation}
+
+\subsection{Task 1: Crypto Arithmetic Problem}
+
+File: \texttt{1.pl}
+
+\lstinputlisting[style=prolog, caption={Prolog program for SEND + MORE = MONEY}]{1.pl}
+
+\textbf{Execution command:}
+\begin{lstlisting}[style=output]
+$ swipl -q -t "solution(S,E,N,D,M,O,R,Y), writeln([S,E,N,D,M,O,R,Y])." 1.pl
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{lstlisting}[style=output]
+[9,5,6,7,1,0,8,2]
+\end{lstlisting}
+
+This corresponds to $9567 + 1085 = 10652$.
+
+\subsection{Task 2: Map Colouring in Prolog}
+
+File: \texttt{map\_coloring.pl}
+
+\lstinputlisting[style=prolog, caption={Prolog program for Australia map colouring}]{map_coloring.pl}
+
+\textbf{Execution command:}
+\begin{lstlisting}[style=output]
+$ swipl -q map_coloring.pl
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{lstlisting}[style=output]
+Australia Map Colouring Solution:
+  wa = red
+  nt = green
+  q = red
+  nsw = green
+  v = red
+  sa = blue
+  t = red
+\end{lstlisting}
+
+\subsection{Task 3: Map Colouring in Python}
+
+File: \texttt{map\_coloring.py}
+
+\lstinputlisting[style=python, caption={Python program for Australia map colouring}]{map_coloring.py}
+
+\textbf{Execution command:}
+\begin{lstlisting}[style=output]
+$ python3 map_coloring.py
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{lstlisting}[style=output]
+Australia Map Colouring Solution:
+  WA = red
+  NT = green
+  Q = red
+  NSW = green
+  V = red
+  SA = blue
+  T = red
+\end{lstlisting}
+
+% ==================== 6. RESULTS ====================
+\section{Results}
+
+\begin{table}[H]
+\centering
+\caption{Summary of results for Lab 5}
+\begin{tabular}{lll}
+\toprule
+\textbf{Task} & \textbf{Problem} & \textbf{Result} \\
+\midrule
+1 & Crypto Arithmetic (Prolog) & $S=9,E=5,N=6,D=7,M=1,O=0,R=8,Y=2$ \\
+2 & Map Colouring (Prolog) & WA/NSW/T red; NT/V green; SA blue \\
+3 & Map Colouring (Python) & Same valid 3-colouring as Prolog \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The Prolog and Python implementations both produced the same valid colouring. This confirms that the CSP formulation is correct and that the same constraints can be solved by different programming paradigms.
+
+% ==================== 7. DISCUSSION ====================
+\section{Discussion}
+
+The crypto arithmetic program demonstrates how arithmetic constraints can be combined with all-different and non-zero constraints to solve a puzzle declaratively.  Using \texttt{library(clpfd)} significantly reduces the amount of code compared to a generate-and-test approach.
+
+For the map-colouring problem, the Prolog solution is concise because constraints are stated directly.  The Java solution requires explicit backtracking and adjacency checking, while the Python version uses a straightforward brute-force search over the Cartesian product of colours.  All three produce the same result, which shows that once the CSP is well defined it can be implemented in many ways.
+
+One observation is that Tasmania has no adjacent regions in the given map, so it can take any of the three colours.  This reflects the real-world geography of Tasmania as an island state.
+
+% ==================== 8. CONCLUSION ====================
+\section{Conclusion}
+
+This laboratory exercise successfully demonstrated the modelling and solution of constraint satisfaction problems using both logic programming and imperative programming.  The crypto arithmetic and map-colouring problems were correctly solved, and the equivalence of the Prolog and Java results validates the CSP formulation.
+
+\end{document}

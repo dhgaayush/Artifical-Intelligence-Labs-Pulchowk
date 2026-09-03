@@ -1,0 +1,784 @@
+\documentclass[12pt,a4paper]{article}
+
+% ── Packages ─────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{eso-pic}
+
+% ── Page Geometry ──────────────────────────────────────────
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+% ── Plain code listing style (black and white, line numbers) ─
+\lstdefinestyle{plain}{
+  basicstyle=\ttfamily\small,
+  numberstyle=\tiny,
+  numbers=left, numbersep=6pt,
+  frame=none,
+  breaklines=true, showstringspaces=false,
+  tabsize=2, captionpos=b,
+  xleftmargin=18pt,
+  aboveskip=10pt, belowskip=6pt
+}
+
+% ── Section headings: plain bold black, unnumbered (numbers embedded in text) ─
+\setcounter{secnumdepth}{0}
+
+% ── Footer: centered page number, no header ─────────────────
+\pagestyle{plain}
+
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=black}
+
+\begin{document}
+
+% ═══════════════════════════════════════════════════════════
+%  COVER PAGE (bordered, plain style)
+% ═══════════════════════════════════════════════════════════
+\thispagestyle{empty}
+\AddToShipoutPictureBG{%
+  \AtPageLowerLeft{%
+    \hspace{1.2cm}\raisebox{1.2cm}{%
+      \color{black}\framebox[\dimexpr\paperwidth-2.4cm\relax]{%
+        \rule{0pt}{\dimexpr\paperheight-2.4cm\relax}}%
+    }%
+  }%
+}
+
+\begin{center}
+
+\vspace*{1.4cm}
+\includegraphics[width=0.22\textwidth]{emblem.png}\\[0.6cm]
+
+{\Large TRIBHUVAN UNIVERSITY}\\[0.35cm]
+{\large INSTITUTE OF ENGINEERING}\\[0.15cm]
+{\large PULCHOWK CAMPUS}\\[1.4cm]
+
+{\bfseries\large A LAB REPORT\\
+ON\\[0.2cm]
+Search Strategies in AI --- Informed and Uninformed Search}
+
+\vspace{2.2cm}
+
+{\rule{0.3pt}{2.3cm}}\hspace{1.4cm}{\rule{0.3pt}{2.3cm}}\hspace{1.4cm}{\rule{0.3pt}{2.3cm}}
+
+\vspace{2.6cm}
+
+\end{center}
+
+\begin{flushleft}
+\underline{\textbf{SUBMITTED BY:}}\\[0.4cm]
+Name: Aditya Kumar Shah\\[0.2cm]
+Roll No.: 080BCT011\\[0.2cm]
+Lab No.: 04
+\end{flushleft}
+
+\vspace{-1.9cm}
+\begin{flushright}
+\underline{\textbf{SUBMITTED TO:}}\\[0.4cm]
+Department of Electronics\\[0.2cm]
+and Computer Engineering
+\end{flushright}
+
+\vfill
+\newpage
+
+% ═══════════════════════════════════════════════════════════
+\section*{1. Objectives}
+
+\begin{enumerate}[leftmargin=1.6em]
+  \item To understand the classification of search strategies into uninformed (blind) and informed (heuristic) search.
+  \item To implement Breadth-First Search (BFS) and analyse its completeness and optimality.
+  \item To implement Uniform-Cost Search (UCS) and understand how path cost drives expansion.
+  \item To implement Depth-First Search (DFS) and observe its memory efficiency vs.\ non-optimality.
+  \item To implement Iterative-Deepening DFS (IDDFS) and appreciate its combination of BFS completeness with DFS memory efficiency.
+  \item To implement Greedy Best-First Search and understand how heuristic guidance can be fast but suboptimal.
+  \item To implement A* Search and verify its optimality when an admissible heuristic is used.
+  \item To compare all six algorithms on the Romanian Map problem and draw conclusions.
+\end{enumerate}
+
+\section*{2. Theoretical Background}
+
+\subsection*{2.1 Search Problem Formulation}
+
+A search problem is defined by the following components:
+
+\begin{center}
+\begin{tabular}{@{}lp{9.5cm}@{}}
+\toprule
+\textbf{Component} & \textbf{Description} \\
+\midrule
+Initial State & The state from which the search begins (e.g., Arad) \\[2pt]
+Actions & Set of actions available from a state (e.g., move to neighbouring city) \\[2pt]
+Transition Model & Describes the result of an action: $\text{Result}(s,a) = s'$ \\[2pt]
+Goal Test & Determines if the goal state has been reached (e.g., Bucharest) \\[2pt]
+Path Cost & A function assigning a numeric cost to each path (e.g., sum of road distances) \\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{center}
+\small Table 1: Search Problem Components
+\end{center}
+
+\subsection*{2.2 Uninformed (Blind) Search}
+
+Uninformed search strategies use no additional information about the problem domain beyond the problem definition. They can only distinguish goal from non-goal states and generate successors.
+
+\textbf{Key Characteristics:}
+\begin{itemize}[leftmargin=1.4em]
+  \item No heuristic or domain knowledge is used
+  \item Systematic exploration of the state space
+  \item May be inefficient for large or complex problems
+  \item Includes: BFS, UCS, DFS, IDDFS
+\end{itemize}
+
+\subsection*{2.3 Informed (Heuristic) Search}
+
+Informed search strategies use problem-specific knowledge beyond the problem definition to find solutions more efficiently. This knowledge is encoded in a heuristic function $h(n)$ that estimates the cost of the cheapest path from node $n$ to a goal node.
+
+\textbf{Key Characteristics:}
+\begin{itemize}[leftmargin=1.4em]
+  \item Uses a heuristic function $h(n)$ to guide search
+  \item Typically explores fewer nodes than uninformed search
+  \item Quality of search depends on quality of the heuristic
+  \item Includes: Greedy Best-First Search, A* Search
+\end{itemize}
+
+\subsection*{2.4 Breadth-First Search (BFS)}
+
+BFS expands the shallowest unexpanded node first, using a FIFO queue (first-in, first-out). It explores all nodes at depth $d$ before any nodes at depth $d+1$.
+
+\textbf{Properties:}
+\begin{itemize}[leftmargin=1.4em]
+  \item Complete: Yes (if branching factor is finite)
+  \item Optimal: Yes (if all step costs are equal); No (if step costs differ)
+  \item Time Complexity: $O(b^d)$ where $b$ = branching factor, $d$ = depth of shallowest goal
+  \item Space Complexity: $O(b^d)$ --- must store all nodes at current depth
+\end{itemize}
+
+\subsection*{2.5 Uniform-Cost Search (UCS)}
+
+UCS expands the node with the lowest path cost $g(n)$ first, using a priority queue ordered by cumulative cost. It is BFS generalised to handle varying step costs.
+
+\textbf{Properties:}
+\begin{itemize}[leftmargin=1.4em]
+  \item Complete: Yes (if step costs $\geq 0$)
+  \item Optimal: Yes (always finds the cheapest path for non-negative costs)
+  \item Time Complexity: $O(b^{1+\lfloor C^*/\epsilon \rfloor})$ where $C^*$ is optimal cost, $\epsilon$ is minimum step cost
+  \item Space Complexity: $O(b^{1+\lfloor C^*/\epsilon \rfloor})$
+\end{itemize}
+
+\subsection*{2.6 Depth-First Search (DFS)}
+
+DFS expands the deepest unexpanded node first, using a LIFO stack (last-in, first-out). It plunges down a single branch until it reaches a dead end, then backtracks.
+
+\textbf{Properties:}
+\begin{itemize}[leftmargin=1.4em]
+  \item Complete: No (may get stuck in infinite branches); Yes in finite spaces with visited tracking
+  \item Optimal: No (may find a longer or more expensive path)
+  \item Time Complexity: $O(b^m)$ where $m$ = maximum depth of the search tree
+  \item Space Complexity: $O(bm)$ --- only stores nodes on current path
+\end{itemize}
+
+\subsection*{2.7 Iterative-Deepening DFS (IDDFS)}
+
+IDDFS repeatedly applies depth-limited DFS with increasing depth limits: $0, 1, 2, 3, \dots$. It combines the completeness of BFS with the memory efficiency of DFS.
+
+\textbf{Properties:}
+\begin{itemize}[leftmargin=1.4em]
+  \item Complete: Yes (like BFS)
+  \item Optimal: Yes (if step costs are equal); No (if step costs differ)
+  \item Time Complexity: $O(b^d)$ --- same as BFS (redundant work is dominated by deepest level)
+  \item Space Complexity: $O(bd)$ --- same as DFS (only stores one branch)
+\end{itemize}
+
+\subsection*{2.8 Greedy Best-First Search}
+
+Greedy Best-First Search expands the node that appears to be closest to the goal, using only the heuristic function $h(n)$ to decide which node to expand next. It uses a priority queue ordered by $h(n)$.
+
+\textbf{Properties:}
+\begin{itemize}[leftmargin=1.4em]
+  \item Complete: No (can get stuck in loops); Yes with visited tracking in finite spaces
+  \item Optimal: No (greedily minimises $h(n)$, not actual path cost)
+  \item Time Complexity: $O(b^m)$ in worst case; often much better with a good heuristic
+  \item Space Complexity: $O(b^m)$ in worst case
+\end{itemize}
+
+\subsection*{2.9 A* Search}
+
+A* Search expands the node with the lowest evaluation function $f(n) = g(n) + h(n)$, where $g(n)$ is the actual cost to reach node $n$ and $h(n)$ is the estimated cost from $n$ to the goal. It combines the actual path cost (UCS) with the heuristic estimate (Greedy).
+
+\textbf{Properties:}
+\begin{itemize}[leftmargin=1.4em]
+  \item Complete: Yes (if branching factor is finite and $h(n)$ is admissible)
+  \item Optimal: Yes (if $h(n)$ is admissible --- never overestimates the true cost)
+  \item Time Complexity: Depends on heuristic accuracy; $O(b^d)$ in worst case
+  \item Space Complexity: $O(b^d)$ --- stores all generated nodes
+\end{itemize}
+
+\textbf{Admissible Heuristic:} $h(n) \leq h^*(n)$ for all $n$, where $h^*(n)$ is the true cheapest cost from $n$ to the goal. The straight-line distance is admissible because it can never exceed the actual road distance.
+
+\subsection*{2.10 The Romanian Map Problem}
+
+The Romanian Map is a classic benchmark from \textit{Artificial Intelligence: A Modern Approach} (Russell \& Norvig). It models 20 Romanian cities connected by roads with distances as edge weights. The task is to find a route from Arad to Bucharest.
+
+The straight-line distance (SLD) to Bucharest serves as an admissible heuristic for informed search algorithms:
+
+\begin{center}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{City} & \textbf{$h(n)$} & \textbf{City} & \textbf{$h(n)$} \\
+\midrule
+Arad & 366 & Mehadia & 241 \\
+Bucharest & 0 & Neamt & 234 \\
+Craiova & 160 & Oradea & 380 \\
+Drobeta & 242 & Pitesti & 100 \\
+Eforie & 161 & RimnicuVilcea & 193 \\
+Fagaras & 176 & Sibiu & 253 \\
+Giurgiu & 77 & Timisoara & 329 \\
+Hirsova & 151 & Urziceni & 80 \\
+Iasi & 226 & Vaslui & 199 \\
+Lugoj & 244 & Zerind & 374 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{center}
+\small Table 2: Straight-Line Distances to Bucharest (Heuristic $h(n)$)
+\end{center}
+
+% ═══════════════════════════════════════════════════════════
+\section*{3. Program 1 --- Breadth-First Search (BFS)}
+
+\subsection*{3.1 Problem Statement}
+
+Implement Breadth-First Search on the Romanian Map to find a route from Arad to Bucharest. BFS should find the shortest path in terms of number of hops.
+
+\subsection*{3.2 Algorithm}
+
+\begin{enumerate}[leftmargin=1.6em]
+  \item Start
+  \item Create an empty queue and a visited set
+  \item Enqueue the start node with path = [start]; mark as visited
+  \item While the queue is not empty:
+  \begin{enumerate}[leftmargin=1.6em,label=(\alph*)]
+    \item Dequeue the front element (node, path)
+    \item If node = goal, return path
+    \item For each unvisited neighbour of node (in sorted order):
+    \begin{enumerate}[leftmargin=1.6em,label=\roman*.]
+      \item Mark neighbour as visited
+      \item Enqueue (neighbour, path + [neighbour])
+    \end{enumerate}
+  \end{enumerate}
+  \item If queue empties without finding goal, return failure
+  \item End
+\end{enumerate}
+
+\subsection*{3.3 Python Implementation}
+
+\begin{lstlisting}[style=plain, caption={Breadth-First Search}]
+def bfs(graph, start, goal):
+    visited = set()
+    queue = [(start, [start])]
+    visited.add(start)
+    exploration_order = []
+
+    while queue:
+        node, path = queue.pop(0)
+        exploration_order.append(node)
+
+        if node == goal:
+            return path, exploration_order
+
+        for neighbor in sorted(graph[node].keys()):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append((neighbor, path + [neighbor]))
+
+    return None, exploration_order
+\end{lstlisting}
+
+\subsection*{3.4 Output}
+
+\begin{verbatim}
+============================================================
+1. BREADTH-FIRST SEARCH (BFS)
+============================================================
+Path Found: Arad -> Sibiu -> Fagaras -> Bucharest
+Path Cost: 450
+Hops: 3
+Nodes Explored: ['Arad', 'Sibiu', 'Timisoara', 'Zerind',
+'Fagaras', 'Oradea', 'RimnicuVilcea', 'Lugoj', 'Bucharest']
+\end{verbatim}
+
+\subsection*{3.5 Discussion}
+
+BFS found the path Arad $\rightarrow$ Sibiu $\rightarrow$ Fagaras $\rightarrow$ Bucharest with a cost of 450. This is the shortest path in terms of number of hops (3 hops), but it is not the cheapest path. BFS is optimal only when all step costs are equal; since the Romanian Map has varying road distances, a cheaper 4-hop path exists (cost 418, found by UCS and A*). BFS explored 9 nodes before reaching the goal.
+
+% ═══════════════════════════════════════════════════════════
+\section*{4. Program 2 --- Uniform-Cost Search (UCS)}
+
+\subsection*{4.1 Problem Statement}
+
+Implement Uniform-Cost Search on the Romanian Map to find the cheapest route from Arad to Bucharest. UCS should find the optimal (minimum cost) path.
+
+\subsection*{4.2 Algorithm}
+
+\begin{enumerate}[leftmargin=1.6em]
+  \item Start
+  \item Create a priority queue ordered by path cost; initialise with (0, start, [start])
+  \item Create an empty visited set
+  \item While the priority queue is not empty:
+  \begin{enumerate}[leftmargin=1.6em,label=(\alph*)]
+    \item Pop the node with the lowest cumulative cost (cost, node, path)
+    \item If node is already visited, skip it
+    \item Mark node as visited
+    \item If node = goal, return path and cost
+    \item For each unvisited neighbour of node:
+    \begin{enumerate}[leftmargin=1.6em,label=\roman*.]
+      \item Calculate new cost = cost + edge\_cost
+      \item Push (new\_cost, neighbour, path + [neighbour]) into the priority queue
+    \end{enumerate}
+  \end{enumerate}
+  \item If priority queue empties without finding goal, return failure
+  \item End
+\end{enumerate}
+
+\subsection*{4.3 Python Implementation}
+
+\begin{lstlisting}[style=plain, caption={Uniform-Cost Search}]
+import heapq
+
+def ucs(graph, start, goal):
+    visited = set()
+    pq = [(0, start, [start])]
+    exploration_order = []
+
+    while pq:
+        cost, node, path = heapq.heappop(pq)
+
+        if node in visited:
+            continue
+        visited.add(node)
+        exploration_order.append(node)
+
+        if node == goal:
+            return path, cost, exploration_order
+
+        for neighbor, edge_cost in sorted(graph[node].items()):
+            if neighbor not in visited:
+                heapq.heappush(pq,
+                    (cost + edge_cost, neighbor, path + [neighbor]))
+
+    return None, float('inf'), exploration_order
+\end{lstlisting}
+
+\subsection*{4.4 Output}
+
+\begin{verbatim}
+============================================================
+2. UNIFORM-COST SEARCH (UCS)
+============================================================
+Path Found: Arad -> Sibiu -> RimnicuVilcea -> Pitesti ->
+Bucharest
+Path Cost: 418
+Hops: 4
+Nodes Explored: ['Arad', 'Zerind', 'Timisoara', 'Sibiu',
+'Oradea', 'RimnicuVilcea', 'Lugoj', 'Fagaras', 'Mehadia',
+'Pitesti', 'Craiova', 'Drobeta', 'Bucharest']
+\end{verbatim}
+
+\subsection*{4.5 Discussion}
+
+UCS found the optimal path Arad $\rightarrow$ Sibiu $\rightarrow$ RimnicuVilcea $\rightarrow$ Pitesti $\rightarrow$ Bucharest with a cost of 418. This is the cheapest possible route. Unlike BFS which found a shorter-hop but more expensive path (450), UCS always expands the node with the lowest cumulative cost, guaranteeing optimality for non-negative edge costs. UCS explored 13 nodes --- more than BFS --- because it must explore all cheaper partial paths before confirming optimality.
+
+% ═══════════════════════════════════════════════════════════
+\section*{5. Program 3 --- Depth-First Search (DFS)}
+
+\subsection*{5.1 Problem Statement}
+
+Implement Depth-First Search (iterative, using a stack) on the Romanian Map to find a route from Arad to Bucharest. DFS should demonstrate its memory-efficient but potentially non-optimal behaviour.
+
+\subsection*{5.2 Algorithm}
+
+\begin{enumerate}[leftmargin=1.6em]
+  \item Start
+  \item Create a stack and push (start, [start])
+  \item Create an empty visited set
+  \item While the stack is not empty:
+  \begin{enumerate}[leftmargin=1.6em,label=(\alph*)]
+    \item Pop the top element (node, path)
+    \item If node is already visited, skip it
+    \item Mark node as visited
+    \item If node = goal, return path
+    \item For each unvisited neighbour of node (push in reverse sorted order so alphabetically first is explored first):
+    \begin{enumerate}[leftmargin=1.6em,label=\roman*.]
+      \item Push (neighbour, path + [neighbour]) onto the stack
+    \end{enumerate}
+  \end{enumerate}
+  \item If stack empties without finding goal, return failure
+  \item End
+\end{enumerate}
+
+\subsection*{5.3 Python Implementation}
+
+\begin{lstlisting}[style=plain, caption={Depth-First Search}]
+def dfs(graph, start, goal):
+    visited = set()
+    stack = [(start, [start])]
+    exploration_order = []
+
+    while stack:
+        node, path = stack.pop()
+
+        if node in visited:
+            continue
+        visited.add(node)
+        exploration_order.append(node)
+
+        if node == goal:
+            return path, exploration_order
+
+        for neighbor in sorted(graph[node].keys(), reverse=True):
+            if neighbor not in visited:
+                stack.append((neighbor, path + [neighbor]))
+
+    return None, exploration_order
+\end{lstlisting}
+
+\subsection*{5.4 Output}
+
+\begin{verbatim}
+============================================================
+3. DEPTH-FIRST SEARCH (DFS)
+============================================================
+Path Found: Arad -> Sibiu -> Fagaras -> Bucharest
+Path Cost: 450
+Hops: 3
+Nodes Explored: ['Arad', 'Sibiu', 'Fagaras', 'Bucharest']
+\end{verbatim}
+
+\subsection*{5.5 Discussion}
+
+DFS found the path Arad $\rightarrow$ Sibiu $\rightarrow$ Fagaras $\rightarrow$ Bucharest with a cost of 450. While it happened to find the goal quickly (only 4 nodes explored), this is not the optimal path. DFS's path depends entirely on the order in which neighbours are pushed onto the stack --- a different ordering could lead to a completely different (and potentially much longer or more expensive) path. DFS is memory-efficient ($O(bm)$) but provides no guarantee of optimality.
+
+% ═══════════════════════════════════════════════════════════
+\section*{6. Program 4 --- Iterative-Deepening DFS (IDDFS)}
+
+\subsection*{6.1 Problem Statement}
+
+Implement Iterative-Deepening DFS on the Romanian Map. IDDFS should combine the completeness of BFS with the memory efficiency of DFS by repeatedly applying depth-limited DFS with increasing depth limits.
+
+\subsection*{6.2 Algorithm}
+
+\begin{enumerate}[leftmargin=1.6em]
+  \item Start
+  \item Set depth = 0
+  \item Repeat:
+  \begin{enumerate}[leftmargin=1.6em,label=(\alph*)]
+    \item Perform Depth-Limited Search (DLS) from start with current depth
+    \item If goal found at this depth, return path
+    \item Increment depth = depth + 1
+    \item If depth $>$ max\_depth, return failure
+  \end{enumerate}
+  \item End
+\end{enumerate}
+
+\textbf{Depth-Limited Search (DLS):}
+\begin{enumerate}[leftmargin=1.6em,label=(\alph*)]
+  \item If depth = 0 and node = goal, return success
+  \item If depth $>$ 0:
+  \begin{enumerate}[leftmargin=1.6em,label=\roman*.]
+    \item For each unvisited neighbour:
+    \begin{enumerate}[leftmargin=1.6em,label=\Alph*.]
+      \item Recursively call DLS with depth $-$ 1
+      \item If found, propagate success back up
+    \end{enumerate}
+    \item Backtrack: remove neighbour from visited
+  \end{enumerate}
+  \item Return failure
+\end{enumerate}
+
+\subsection*{6.3 Python Implementation}
+
+\begin{lstlisting}[style=plain, caption={Iterative-Deepening DFS}]
+def dls(graph, node, goal, depth, visited, path):
+    if depth == 0 and node == goal:
+        return True, path
+    if depth > 0:
+        for neighbor in sorted(graph[node].keys()):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                found, result = dls(graph, neighbor, goal,
+                    depth - 1, visited, path + [neighbor])
+                if found:
+                    return True, result
+                visited.discard(neighbor)
+    return False, None
+
+def iddfs(graph, start, goal, max_depth=20):
+    exploration_order = []
+    for depth in range(max_depth + 1):
+        visited = {start}
+        found, path = dls(graph, start, goal, depth,
+            visited, [start])
+        exploration_order.append(
+            f"Depth {depth}: visited {sorted(visited)}")
+        if found:
+            return path, depth, exploration_order
+    return None, -1, exploration_order
+\end{lstlisting}
+
+\subsection*{6.4 Output}
+
+\begin{verbatim}
+============================================================
+4. ITERATIVE-DEEPENING DFS (IDDFS)
+============================================================
+Path Found: Arad -> Sibiu -> Fagaras -> Bucharest
+Path Cost: 450
+Hops: 3
+Found at Depth: 3
+Depth-by-depth exploration:
+Depth 0: visited ['Arad']
+Depth 1: visited ['Arad']
+Depth 2: visited ['Arad']
+Depth 3: visited ['Arad', 'Bucharest', 'Fagaras', 'Sibiu']
+\end{verbatim}
+
+\subsection*{6.5 Discussion}
+
+IDDFS found the path Arad $\rightarrow$ Sibiu $\rightarrow$ Fagaras $\rightarrow$ Bucharest at depth 3 with a cost of 450. Like BFS, it finds the shortest-depth path (3 hops) but not the cheapest path. The depth-by-depth trace shows that depths 0, 1, and 2 could not reach Bucharest --- the goal was only found at depth 3. IDDFS's key advantage is its linear space complexity $O(bd)$, making it the preferred uninformed search method when memory is limited. The apparent redundancy of re-exploring shallower depths is acceptable because the number of nodes at the deepest level dominates.
+
+% ═══════════════════════════════════════════════════════════
+\section*{7. Program 5 --- Greedy Best-First Search}
+
+\subsection*{7.1 Problem Statement}
+
+Implement Greedy Best-First Search on the Romanian Map using the straight-line distance to Bucharest as the heuristic. It should expand the node that appears closest to the goal at each step.
+
+\subsection*{7.2 Algorithm}
+
+\begin{enumerate}[leftmargin=1.6em]
+  \item Start
+  \item Create a priority queue ordered by $h(n)$; initialise with $(h(\text{start}), \text{start}, [\text{start}])$
+  \item Create an empty visited set
+  \item While the priority queue is not empty:
+  \begin{enumerate}[leftmargin=1.6em,label=(\alph*)]
+    \item Pop the node with the smallest $h(n)$: (h, node, path)
+    \item If node is already visited, skip it
+    \item Mark node as visited
+    \item If node = goal, return path
+    \item For each unvisited neighbour of node:
+    \begin{enumerate}[leftmargin=1.6em,label=\roman*.]
+      \item Push $(h(\text{neighbour}), \text{neighbour}, \text{path}+[\text{neighbour}])$ into the priority queue
+    \end{enumerate}
+  \end{enumerate}
+  \item If priority queue empties without finding goal, return failure
+  \item End
+\end{enumerate}
+
+\subsection*{7.3 Python Implementation}
+
+\begin{lstlisting}[style=plain, caption={Greedy Best-First Search}]
+import heapq
+
+def greedy_best_first(graph, start, goal, heuristic):
+    visited = set()
+    pq = [(heuristic[start], start, [start])]
+    exploration_order = []
+
+    while pq:
+        h, node, path = heapq.heappop(pq)
+
+        if node in visited:
+            continue
+        visited.add(node)
+        exploration_order.append(node)
+
+        if node == goal:
+            cost = sum(graph[path[i]][path[i+1]]
+                       for i in range(len(path) - 1))
+            return path, cost, exploration_order
+
+        for neighbor in sorted(graph[node].keys()):
+            if neighbor not in visited:
+                heapq.heappush(pq,
+                    (heuristic[neighbor], neighbor, path + [neighbor]))
+
+    return None, float('inf'), exploration_order
+\end{lstlisting}
+
+\subsection*{7.4 Output}
+
+\begin{verbatim}
+============================================================
+5. GREEDY BEST-FIRST SEARCH
+============================================================
+Path Found: Arad -> Sibiu -> Fagaras -> Bucharest
+Path Cost: 450
+Hops: 3
+Nodes Explored: ['Arad', 'Sibiu', 'Fagaras', 'Bucharest']
+\end{verbatim}
+
+\subsection*{7.5 Discussion}
+
+Greedy Best-First Search found the path Arad $\rightarrow$ Sibiu $\rightarrow$ Fagaras $\rightarrow$ Bucharest with a cost of 450. It greedily chose Sibiu ($h=253$) over Zerind ($h=374$) and Timisoara ($h=329$) from Arad, then Fagaras ($h=176$) over RimnicuVilcea ($h=193$) and Oradea ($h=380$) from Sibiu, and finally Bucharest ($h=0$) from Fagaras. While it found the goal very quickly (only 4 nodes explored), the path is not optimal --- it missed the cheaper route through RimnicuVilcea and Pitesti (cost 418) because $h(\text{Fagaras}) = 176 < h(\text{RimnicuVilcea}) = 193$, even though the RimnicuVilcea route is actually cheaper overall.
+
+% ═══════════════════════════════════════════════════════════
+\section*{8. Program 6 --- A* Search}
+
+\subsection*{8.1 Problem Statement}
+
+Implement A* Search on the Romanian Map using $f(n) = g(n) + h(n)$, where $g(n)$ is the actual path cost and $h(n)$ is the straight-line distance heuristic. A* should find the optimal (cheapest) path.
+
+\subsection*{8.2 Algorithm}
+
+\begin{enumerate}[leftmargin=1.6em]
+  \item Start
+  \item Create a priority queue ordered by $f(n) = g(n) + h(n)$; initialise with $(h(\text{start}), 0, \text{start}, [\text{start}])$
+  \item Create an empty visited set
+  \item While the priority queue is not empty:
+  \begin{enumerate}[leftmargin=1.6em,label=(\alph*)]
+    \item Pop the node with the smallest $f(n)$: (f, g, node, path)
+    \item If node is already visited, skip it
+    \item Mark node as visited
+    \item If node = goal, return path and cost $g$
+    \item For each unvisited neighbour of node:
+    \begin{enumerate}[leftmargin=1.6em,label=\roman*.]
+      \item Calculate $g' = g + \text{edge\_cost}$
+      \item Calculate $f' = g' + h(\text{neighbour})$
+      \item Push $(f', g', \text{neighbour}, \text{path} + [\text{neighbour}])$ into the priority queue
+    \end{enumerate}
+  \end{enumerate}
+  \item If priority queue empties without finding goal, return failure
+  \item End
+\end{enumerate}
+
+\subsection*{8.3 Python Implementation}
+
+\begin{lstlisting}[style=plain, caption={A* Search}]
+import heapq
+
+def a_star(graph, start, goal, heuristic):
+    visited = set()
+    pq = [(heuristic[start], 0, start, [start])]
+    exploration_order = []
+
+    while pq:
+        f, g, node, path = heapq.heappop(pq)
+
+        if node in visited:
+            continue
+        visited.add(node)
+        exploration_order.append(node)
+
+        if node == goal:
+            return path, g, exploration_order
+
+        for neighbor, edge_cost in sorted(graph[node].items()):
+            if neighbor not in visited:
+                new_g = g + edge_cost
+                new_f = new_g + heuristic[neighbor]
+                heapq.heappush(pq,
+                    (new_f, new_g, neighbor, path + [neighbor]))
+
+    return None, float('inf'), exploration_order
+\end{lstlisting}
+
+\subsection*{8.4 Output}
+
+\begin{verbatim}
+============================================================
+6. A* SEARCH
+============================================================
+Path Found: Arad -> Sibiu -> RimnicuVilcea -> Pitesti ->
+Bucharest
+Path Cost: 418
+Hops: 4
+Nodes Explored: ['Arad', 'Sibiu', 'RimnicuVilcea',
+'Fagaras', 'Pitesti', 'Bucharest']
+\end{verbatim}
+
+\subsection*{8.5 Discussion}
+
+A* found the optimal path Arad $\rightarrow$ Sibiu $\rightarrow$ RimnicuVilcea $\rightarrow$ Pitesti $\rightarrow$ Bucharest with a cost of 418. Unlike Greedy Best-First (which chose Fagaras because $h=176$), A* also considers the actual cost $g(n)$. From Sibiu, A* chose RimnicuVilcea because $f(\text{RimnicuVilcea}) = g(220) + h(193) = 413$, which is less than $f(\text{Fagaras}) = g(239) + h(176) = 415$. This allowed A* to discover the cheaper route through Pitesti. A* explored 6 nodes --- slightly more than Greedy (4) but far fewer than UCS (13) --- demonstrating that the heuristic guides the search efficiently while still guaranteeing optimality.
+
+% ═══════════════════════════════════════════════════════════
+\section*{9. Program 7 --- Comparison of All Search Algorithms}
+
+\subsection*{9.1 Problem Statement}
+
+Compare all six search algorithms on the Romanian Map problem, highlighting their differences in path found, path cost, number of hops, and number of nodes explored.
+
+\subsection*{9.2 Output}
+
+\begin{verbatim}
+============================================================
+COMPARISON OF ALL SEARCH ALGORITHMS
+============================================================
+Algorithm             Path                              Cost  Hops
+------------------------------------------------------------------
+BFS                   Arad->Sibiu->Fagaras->Bucharest    450    3
+UCS                   Arad->Sibiu->RimnicuVilcea->        418    4
+                          Pitesti->Bucharest
+DFS                   Arad->Sibiu->Fagaras->Bucharest    450    3
+IDDFS                 Arad->Sibiu->Fagaras->Bucharest    450    3
+Greedy Best-First     Arad->Sibiu->Fagaras->Bucharest    450    3
+A*                    Arad->Sibiu->RimnicuVilcea->        418    4
+                          Pitesti->Bucharest
+------------------------------------------------------------------
+\end{verbatim}
+
+\subsection*{9.3 Discussion}
+
+\begin{center}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Algorithm} & \textbf{Cost} & \textbf{Optimal?} & \textbf{Nodes Explored} & \textbf{Type} \\
+\midrule
+BFS               & 450 & No  & 9  & Uninformed \\
+UCS               & 418 & Yes & 13 & Uninformed \\
+DFS               & 450 & No  & 4  & Uninformed \\
+IDDFS             & 450 & No  & --- & Uninformed \\
+Greedy Best-First & 450 & No  & 4  & Informed \\
+A*                & 418 & Yes & 6  & Informed \\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{center}
+\small Table 3: Comparison of All Search Algorithms
+\end{center}
+
+\textbf{Key observations:}
+\begin{enumerate}[leftmargin=1.6em]
+  \item Only UCS and A* found the optimal path (cost 418). Both guarantee optimality under their respective conditions.
+  \item BFS, DFS, IDDFS, and Greedy all found the suboptimal path (cost 450). BFS and IDDFS find the shortest-hop path but not the cheapest when step costs differ. DFS and Greedy have no optimality guarantee.
+  \item DFS and Greedy explored the fewest nodes (4 each), but at the cost of optimality.
+  \item A* explored only 6 nodes to find the optimal path --- much fewer than UCS's 13 --- showing that a good heuristic dramatically reduces the search effort while preserving optimality.
+  \item UCS explored the most nodes (13) because it has no heuristic guidance and must expand all cheaper partial paths before confirming the cheapest route.
+\end{enumerate}
+
+% ═══════════════════════════════════════════════════════════
+\section*{10. Conclusion}
+
+This lab demonstrated the implementation and comparison of six fundamental search strategies in Artificial Intelligence on the Romanian Map problem:
+
+\begin{enumerate}[leftmargin=1.6em]
+  \item \textbf{Breadth-First Search (BFS)} finds the shortest-hop path but is not cost-optimal when step costs vary. It requires significant memory ($O(b^d)$) as all nodes at each depth level must be stored.
+  \item \textbf{Uniform-Cost Search (UCS)} guarantees the cheapest path for non-negative edge costs by always expanding the lowest-cost node. It is optimal but may explore many nodes without heuristic guidance.
+  \item \textbf{Depth-First Search (DFS)} is memory-efficient ($O(bm)$) but neither complete nor optimal. Its results depend on the order of neighbour exploration.
+  \item \textbf{Iterative-Deepening DFS (IDDFS)} combines the completeness of BFS with the memory efficiency of DFS. It finds the shortest-depth path and is the preferred uninformed search when memory is limited.
+  \item \textbf{Greedy Best-First Search} uses a heuristic to guide the search towards the goal quickly, exploring very few nodes. However, it sacrifices optimality --- the path found may be more expensive than the optimal route.
+  \item \textbf{A* Search} combines the actual cost $g(n)$ with the heuristic $h(n)$ to efficiently find the optimal path. With an admissible heuristic (straight-line distance in our case), A* guarantees optimality while exploring far fewer nodes than UCS.
+\end{enumerate}
+
+The Romanian Map problem clearly illustrates that informed search (A*) provides the best trade-off between efficiency and optimality when a good heuristic is available, while uninformed search (UCS) guarantees optimality at the cost of exploring more nodes. The choice of search strategy depends on the problem characteristics, available heuristic information, and the relative importance of optimality versus computational efficiency.
+
+\end{document}

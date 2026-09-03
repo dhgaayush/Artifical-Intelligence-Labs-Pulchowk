@@ -1,0 +1,53 @@
+\contentsline {section}{\numberline {1}Objectives}{4}{section.1}%
+\contentsline {section}{\numberline {2}Theoretical Background}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Search Problem Formulation}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Uninformed (Blind) Search}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Informed (Heuristic) Search}{5}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Breadth-First Search (BFS)}{5}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Uniform-Cost Search (UCS)}{5}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Depth-First Search (DFS)}{6}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}Iterative-Deepening DFS (IDDFS)}{6}{subsection.2.7}%
+\contentsline {subsection}{\numberline {2.8}Greedy Best-First Search}{6}{subsection.2.8}%
+\contentsline {subsection}{\numberline {2.9}A* Search}{7}{subsection.2.9}%
+\contentsline {subsection}{\numberline {2.10}The Romanian Map Problem}{7}{subsection.2.10}%
+\contentsline {section}{\numberline {3}Program 1 --- Breadth-First Search (BFS)}{9}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Problem Statement}{9}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Algorithm}{9}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Python Implementation}{9}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Output}{10}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Discussion}{10}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Program 2 --- Uniform-Cost Search (UCS)}{11}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Problem Statement}{11}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Algorithm}{11}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Python Implementation}{11}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Output}{12}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Discussion}{12}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Program 3 --- Depth-First Search (DFS)}{13}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Problem Statement}{13}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Algorithm}{13}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Python Implementation}{13}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Output}{14}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Discussion}{14}{subsection.5.5}%
+\contentsline {section}{\numberline {6}Program 4 --- Iterative-Deepening DFS (IDDFS)}{15}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Problem Statement}{15}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Algorithm}{15}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Python Implementation}{15}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Output}{16}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Discussion}{16}{subsection.6.5}%
+\contentsline {section}{\numberline {7}Program 5 --- Greedy Best-First Search}{17}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Problem Statement}{17}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Algorithm}{17}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Python Implementation}{17}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Output}{18}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}Discussion}{18}{subsection.7.5}%
+\contentsline {section}{\numberline {8}Program 6 --- A* Search}{19}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Problem Statement}{19}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Algorithm}{19}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Python Implementation}{19}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}Output}{20}{subsection.8.4}%
+\contentsline {subsection}{\numberline {8.5}Discussion}{20}{subsection.8.5}%
+\contentsline {section}{\numberline {9}Program 7 --- Comparison of All Search Algorithms}{21}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Problem Statement}{21}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Output}{21}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}Discussion}{22}{subsection.9.3}%
+\contentsline {section}{\numberline {10}Conclusion}{23}{section.10}%

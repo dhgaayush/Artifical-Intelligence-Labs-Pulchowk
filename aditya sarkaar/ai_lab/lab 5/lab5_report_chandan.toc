@@ -1,0 +1,13 @@
+\contentsline {section}{\numberline {1}Objectives}{3}{section.1}%
+\contentsline {section}{\numberline {2}Introduction}{3}{section.2}%
+\contentsline {section}{\numberline {3}Theory}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Crypto Arithmetic Problem}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Map Colouring Problem}{4}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Methodology}{4}{section.4}%
+\contentsline {section}{\numberline {5}Implementation}{5}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Task 1: Crypto Arithmetic Problem}{5}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Task 2: Map Colouring in Prolog}{5}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Task 3: Map Colouring in Python}{7}{subsection.5.3}%
+\contentsline {section}{\numberline {6}Results}{8}{section.6}%
+\contentsline {section}{\numberline {7}Discussion}{8}{section.7}%
+\contentsline {section}{\numberline {8}Conclusion}{9}{section.8}%

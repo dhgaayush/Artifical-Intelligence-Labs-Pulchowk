@@ -1,0 +1,297 @@
+\documentclass[12pt,a4paper]{article}
+
+% This report follows the exact preamble and cover formatting of reference.tex.
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{eso-pic}
+\usepackage[expansion=false]{microtype}
+
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+\lstdefinestyle{plain}{
+  basicstyle=\ttfamily\small,
+  numberstyle=\tiny,
+  numbers=left, numbersep=6pt,
+  frame=none,
+  breaklines=true, showstringspaces=false,
+  tabsize=2, captionpos=b,
+  xleftmargin=18pt,
+  aboveskip=10pt, belowskip=6pt
+}
+
+\setcounter{secnumdepth}{0}
+\pagestyle{plain}
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=black}
+
+\begin{document}
+
+% Cover page based on reference.tex.
+\thispagestyle{empty}
+\AddToShipoutPictureBG{%
+  \AtPageLowerLeft{%
+    \hspace{1.2cm}\raisebox{1.2cm}{%
+      \color{black}\framebox[\dimexpr\paperwidth-2.4cm\relax]{%
+        \rule{0pt}{\dimexpr\paperheight-2.4cm\relax}}%
+    }%
+  }%
+}
+
+\begin{center}
+
+\vspace*{1.4cm}
+\includegraphics[width=0.22\textwidth]{outputs/emblem.png}\\[0.6cm]
+
+{\Large TRIBHUVAN UNIVERSITY}\\[0.35cm]
+{\large INSTITUTE OF ENGINEERING}\\[0.15cm]
+{\large PULCHOWK CAMPUS}\\[1.4cm]
+
+{\bfseries\large A LAB REPORT\\
+ON\\[0.2cm]
+Machine Learning Pipeline: Generative vs. Discriminative Models,\\
+Model Capacity, and Cross-Entropy on the Iris Dataset}
+
+\vspace{2.2cm}
+{\rule{0.3pt}{2.3cm}}\hspace{1.4cm}{\rule{0.3pt}{2.3cm}}\hspace{1.4cm}{\rule{0.3pt}{2.3cm}}
+
+\vspace{2.6cm}
+\end{center}
+
+\noindent
+\begin{minipage}[t]{0.47\textwidth}
+\vspace{0pt}
+\underline{\textbf{SUBMITTED BY:}}\\[0.4cm]
+Name: Aditya Kumar Shah\\[0.2cm]
+Roll No.: 080BCT011\\[0.2cm]
+Lab No.: 08
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\textwidth}
+\vspace{0pt}
+\begin{flushright}
+\underline{\textbf{SUBMITTED TO:}}\\[0.4cm]
+Department of Electronics\\[0.2cm]
+and Computer Engineering
+\end{flushright}
+\end{minipage}
+
+\vfill
+\newpage
+
+\section*{1. Objectives}
+
+\begin{enumerate}[leftmargin=1.6em]
+  \item To build a complete machine learning pipeline on the Iris dataset, splitting the data into training, validation, and test sets, and to understand why the test set must be kept separate from model/hyperparameter selection.
+  \item To train and compare a generative model (Gaussian Naive Bayes) and a discriminative model (Logistic Regression) on the same data and evaluate them fairly on a validation set.
+  \item To study model capacity using Decision Tree classifiers of varying \texttt{max\_depth}, and to identify settings that underfit and settings that overfit.
+  \item To select a hyperparameter using validation performance only, and to report an honest, single evaluation of the chosen model on the held-out test set.
+  \item To relate the observed training/validation accuracies to the concepts of bias and variance.
+  \item To compute cross-entropy (log loss) for a probabilistic classifier and to examine how confidently correct and confidently wrong predictions contribute to it.
+  \item To reflect on the practical difference between Maximum Likelihood Estimation (MLE) and Maximum A Posteriori (MAP) estimation, and to illustrate it through the effect of regularization on Logistic Regression.
+\end{enumerate}
+
+\section*{2. Theoretical Background}
+
+A machine learning pipeline consists of preparing data, choosing a model, training it, validating it, and finally evaluating it on unseen data. The available data is typically split into a \textbf{training set} (used to fit model parameters), a \textbf{validation set} (used to compare models and choose hyperparameters), and a \textbf{test set} (kept aside and used only once, for a final, unbiased estimate of generalization performance).
+
+A \textbf{generative} model, such as Gaussian Naive Bayes, learns the class-conditional distribution of the data, $p(x \mid y)$, and uses Bayes' rule to obtain $p(y \mid x)$. A \textbf{discriminative} model, such as Logistic Regression, models $p(y \mid x)$ directly without describing how the input data itself is generated.
+
+\textbf{Model capacity} describes how flexible a model is. A model with too little capacity cannot represent the true decision boundary and \textbf{underfits} -- it performs poorly on both training and validation data. A model with too much capacity can memorize the training data, including its noise, and \textbf{overfits} -- it achieves very high training accuracy but a noticeably lower validation accuracy. \textbf{Bias} refers to systematic error caused by an overly simple model (associated with underfitting), while \textbf{variance} refers to sensitivity to the particular training sample (associated with overfitting).
+
+\textbf{Cross-entropy} (log loss) for a binary outcome is
+\[
+  \mathrm{Cost}(h(x), y) = -y\log(h(x)) - (1-y)\log(1-h(x)),
+\]
+which generalizes to the multi-class negative log-likelihood $-\log \hat{p}_{y}$, where $\hat{p}_y$ is the probability the model assigns to the true class $y$. Because of the logarithm, a prediction that is confidently correct ($\hat{p}_y \to 1$) contributes a loss near $0$, whereas a prediction that is confidently wrong ($\hat{p}_y \to 0$) contributes a loss that diverges towards infinity.
+
+\textbf{Maximum Likelihood Estimation (MLE)} chooses the parameters $\theta$ that maximize the probability of the observed data, $\theta^{\mathrm{MLE}} = \arg\max_\theta \prod_i p(x^{(i)} \mid \theta)$. \textbf{Maximum A Posteriori (MAP)} estimation additionally multiplies in a prior $p(\theta)$, $\theta^{\mathrm{MAP}} = \arg\max_\theta \prod_i p(x^{(i)}\mid\theta)\,p(\theta)$, which in Logistic Regression corresponds to adding an $L_2$ regularization penalty that pulls the weights towards zero.
+
+\section*{3. Assignment 1 --- Building the Pipeline}
+
+\begin{sloppypar}
+The Iris dataset (150 samples, 4 numerical features, 3 classes) was loaded from \texttt{scikit-learn} and split into training, validation, and test sets using stratified sampling, exactly as specified in the lab sheet: first $80\%/20\%$ into a temporary set and a held-out test set, then the temporary set split $75\%/25\%$ into training and validation sets. All features were standardized using a \texttt{StandardScaler} fitted only on the training set.
+\end{sloppypar}
+
+\begin{center}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{Split} & \textbf{No. of samples} & \textbf{Percentage of total} \\
+\midrule
+Training   & 90  & 60\% \\
+Validation & 30  & 20\% \\
+Test       & 30  & 20\% \\
+\midrule
+Total      & 150 & 100\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The test set must not be used while choosing a model or tuning hyperparameters because doing so would let information about the final evaluation data leak into the model-selection process; the reported performance would then be an overly optimistic estimate of how the model behaves on genuinely unseen data. Keeping the test set completely untouched until the very end, and using the validation set for all comparisons, keeps the final test accuracy an honest measure of generalization.
+
+\section*{4. Assignment 2 --- Generative vs. Discriminative Model}
+
+Gaussian Naive Bayes (generative) and Logistic Regression (discriminative) were trained on the standardized training set and evaluated on the validation set.
+
+\begin{center}
+\begin{tabular}{@{}lr@{}}
+\toprule
+\textbf{Model} & \textbf{Validation accuracy} \\
+\midrule
+Gaussian Naive Bayes (generative)    & 0.933 (28/30) \\
+Logistic Regression (discriminative) & 0.933 (28/30) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{outputs/gen_vs_disc.png}
+\caption{Validation accuracy of Gaussian Naive Bayes (generative) versus Logistic Regression (discriminative) on the Iris dataset.}
+\end{figure}
+
+On this particular split, the two models tie at 93.3\% validation accuracy. This is not surprising for the Iris dataset: its three classes are close to linearly separable and roughly Gaussian within each class, which is exactly the setting in which a simple generative model (Gaussian Naive Bayes) and a linear discriminative model (Logistic Regression) are expected to behave similarly. Naive Bayes has the additional advantage of modelling each class's distribution explicitly, but its independence assumption between features is not strictly true for Iris (e.g. petal length and petal width are correlated), which is why it does not outperform Logistic Regression here despite that extra structure.
+
+\section*{5. Assignment 3 --- Observing Model Capacity}
+
+Decision Tree classifiers were trained with \texttt{max\_depth} $\in \{1, 3, 5, \text{None}\}$, and the training and validation accuracy of each were recorded.
+
+\begin{center}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{max\_depth} & \textbf{Training accuracy} & \textbf{Validation accuracy} \\
+\midrule
+1    & 0.667 & 0.667 \\
+3    & 0.989 & 0.900 \\
+5    & 1.000 & 0.933 \\
+None & 1.000 & 0.933 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{outputs/tree_capacity.png}
+\caption{Training vs. validation accuracy of Decision Trees of increasing capacity (max\_depth).}
+\end{figure}
+
+\textbf{Underfitting:} \texttt{max\_depth}=1 clearly underfits. A single split can only separate one class from the other two, so both the training accuracy (0.667) and the validation accuracy (0.667) are low and nearly equal -- the model is too simple to capture the structure of the data even on the data it was trained on.
+
+\textbf{Overfitting:} \texttt{max\_depth}=None (a fully grown, unrestricted tree) shows the classic overfitting signature: it reaches 100\% training accuracy by memorizing every training example, while its validation accuracy (0.933) is measurably lower. Because Iris is a small, well-separated dataset, the train--validation gap is modest here, but the tree still uses far more splits/leaves than are needed -- \texttt{max\_depth}=5 reaches the identical validation accuracy (0.933) with a much smaller, more constrained tree, confirming that the extra capacity of the unrestricted tree is not buying any real generalization benefit.
+
+\section*{6. Assignment 4 --- Selecting a Hyperparameter with Validation Data}
+
+Using the validation accuracies from Assignment 3, \texttt{max\_depth}=5 and \texttt{max\_depth}=None are tied for the best validation accuracy (0.933). Following the principle of preferring the simplest model that performs best (an application of Occam's razor), \texttt{max\_depth}=5 was selected as the final hyperparameter. This model was then evaluated \emph{exactly once} on the previously untouched test set.
+
+\begin{center}
+\begin{tabular}{@{}lr@{}}
+\toprule
+\textbf{Quantity} & \textbf{Value} \\
+\midrule
+Selected \texttt{max\_depth}           & 5     \\
+Validation accuracy at selection       & 0.933 \\
+\textbf{Final test accuracy}           & \textbf{0.933} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The final test accuracy (0.933) is close to the validation accuracy that guided the selection, which is what is expected when the validation set is representative of the test distribution and has not been over-used for tuning.
+
+\section*{7. Assignment 5 --- Bias and Variance Discussion}
+
+\begin{center}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{Model} & \textbf{Training accuracy} & \textbf{Validation accuracy} \\
+\midrule
+Shallow tree (max\_depth=1)   & 0.667 & 0.667 \\
+Deep tree (max\_depth=None)   & 1.000 & 0.933 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The shallow tree (\texttt{max\_depth}=1) is the higher-\textbf{bias} model: its training accuracy is low, meaning it makes systematic errors even on the data it has already seen, because a single decision boundary is too simple to represent a 3-class problem. It cannot be fixed by seeing more data of the same kind -- its error comes from the model's own limited assumptions, not from noise.
+
+The deep tree (\texttt{max\_depth}=None) is the higher-\textbf{variance} model: it fits the training set perfectly (accuracy 1.0) but its validation accuracy is lower, showing that some of what it "learned" is specific to the particular training sample rather than the true underlying pattern -- a different training sample would likely produce a noticeably different tree. This train--validation gap (1.0 vs. 0.933), even though modest on the easy Iris dataset, is the signature of variance.
+
+\section*{8. Assignment 6 --- Cross-Entropy}
+
+\begin{sloppypar}
+Class probabilities from the trained Logistic Regression model were obtained with \texttt{predict\_proba()} on the validation set, and the validation log loss was computed with scikit-learn's \texttt{log\_loss} function.
+\end{sloppypar}
+
+\begin{center}
+\begin{tabular}{@{}lr@{}}
+\toprule
+\textbf{Quantity} & \textbf{Value} \\
+\midrule
+Validation log loss (mean cross-entropy) & 0.215 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{outputs/cross_entropy.png}
+\caption{Per-sample cross-entropy loss on the validation set, sorted from lowest to highest. Correctly classified samples are shown in green, misclassified samples in red.}
+\end{figure}
+
+\begin{center}
+\small
+\begin{tabular}{@{}lllr@{}}
+\toprule
+\textbf{Sample} & \textbf{True class} & \textbf{Pred. prob. of true class} & \textbf{Sample loss} \\
+\midrule
+Confidently correct (\#12) & setosa     & 0.997                    & 0.003 \\
+Confidently wrong (\#10)   & versicolor & 0.262 (pred. virginica)  & 1.340 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The confidently correct prediction assigns 99.7\% probability to the true class (setosa), so its cross-entropy contribution is close to zero ($-\log(0.997) \approx 0.003$). The misclassified sample, in contrast, assigns only 26.2\% probability to the true class (versicolor) -- the model instead favoured virginica -- producing a contribution of $-\log(0.262) \approx 1.340$, roughly 390 times larger than the confident correct prediction's loss. This asymmetry is exactly what cross-entropy is designed to do: it barely penalizes confident, correct predictions, but heavily penalizes predictions that are both wrong and overconfident.
+
+\section*{9. Assignment 7 --- MLE and MAP Reflection}
+
+To illustrate the difference between MLE and MAP, Logistic Regression was retrained with several values of the inverse regularization strength $C$ (a small $C$ corresponds to a strong prior pulling weights towards zero, i.e. a more MAP-like fit; a large $C$ approaches an unregularized MLE fit).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{outputs/mle_map.png}
+\caption{Effect of the regularization strength on the learned weight magnitude and on validation accuracy. Small $C$ (strong prior, MAP-like) shrinks the weights and can underfit; large $C$ (weak prior, MLE-like) lets the weights grow and fits the training distribution more closely.}
+\end{figure}
+
+As $C$ decreases (stronger regularization, more MAP-like), the norm of the learned weight vector shrinks steadily, from about 15.8 at $C=1000$ down to about 0.08 at $C=0.001$; validation accuracy also drops in the heavily regularized regime (to 0.80 at $C \le 0.01$) because the prior is now strong enough to pull the decision boundary away from the data. MLE finds the parameters that make the observed training data as likely as possible, using only the likelihood term $p(D\mid\theta)$, so with enough data and no constraints it can overfit if the model has high capacity. MAP additionally multiplies in a prior $p(\theta)$ that encodes a preference -- here, for smaller weights -- so it trades a small amount of fit to the training data for a simpler, more regularized model. In practice, MLE is the "let the data speak for itself" estimate, while MAP is what you get when you also tell the model what kind of parameter values you expect to see \emph{before} looking at the data; the strength of that prior is itself a hyperparameter (here, $1/C$) that must be tuned, typically using a validation set, so it is neither too weak (overfitting, MLE-like) nor too strong (underfitting).
+
+\section*{10. Questions to be Answered}
+
+\begin{enumerate}[leftmargin=1.6em]
+\item \textbf{Why can a model have very high training accuracy but lower validation accuracy?} This happens when the model has enough capacity to memorize patterns -- including noise and idiosyncrasies -- that are specific to the training set. Those memorized patterns do not generalize, so performance drops on the validation set, which the model has never seen. This is overfitting, and the size of the train--validation gap is a direct measure of it.
+
+\item \textbf{Why is a validation set useful when choosing hyperparameters?} It gives an estimate of generalization performance for each candidate hyperparameter setting without ever touching the test set. If hyperparameters were tuned directly against the test set instead, the test accuracy would no longer be an unbiased estimate of performance on new data, since the choice would already be fitted to that specific set.
+
+\item \textbf{How are underfitting, high bias, and low model capacity related?} A model with low capacity (e.g. a decision stump) cannot represent the true decision boundary of the problem, no matter how much training data it sees. This systematic, unavoidable error is called bias, and it shows up as underfitting: both training and validation accuracy stay low and close to each other, as seen with \texttt{max\_depth}=1 in Assignment 3.
+
+\item \textbf{How are overfitting, high variance, and high model capacity related?} A model with high capacity (e.g. an unrestricted decision tree) can fit the training data extremely closely, including its noise. Because that fit depends heavily on the particular sample of training data used, a different training sample would produce a noticeably different model -- this sensitivity is variance. It shows up as overfitting: high training accuracy but a noticeably lower validation accuracy, as seen with \texttt{max\_depth}=None in Assignment 3.
+
+\item \textbf{What extra information does MAP use that MLE does not?} MAP uses a prior distribution $p(\theta)$ over the model parameters, representing beliefs about which parameter values are more plausible before seeing the data (e.g. that smaller weights are more likely). MLE uses only the likelihood of the observed data, $p(D\mid\theta)$, which is equivalent to MAP with a flat (uninformative) prior.
+
+\item \textbf{Why does cross-entropy heavily penalize a confident but wrong prediction?} Cross-entropy for a single prediction is $-\log(\hat{p}_y)$, where $\hat{p}_y$ is the probability assigned to the true class. As a confident-but-wrong prediction assigns $\hat{p}_y$ close to 0 to the true class, $-\log(\hat{p}_y)$ grows without bound, producing a very large loss -- exactly what was observed for the misclassified sample in Assignment 6, whose loss (1.340) was nearly 400 times larger than that of a confident, correct prediction.
+\end{enumerate}
+
+\section*{11. Conclusion}
+
+A complete machine learning pipeline was built on the Iris dataset, from stratified training/validation/test splitting through model comparison, capacity analysis, hyperparameter selection, and loss analysis. Gaussian Naive Bayes (generative) and Logistic Regression (discriminative) performed identically on the validation set, consistent with Iris being an easy, near-linearly-separable problem. Decision Tree capacity experiments showed the expected underfitting behaviour at \texttt{max\_depth}=1 and the expected overfitting signature (100\% training accuracy with a lower validation accuracy) at \texttt{max\_depth}=None, motivating the selection of \texttt{max\_depth}=5 via the validation set and a final, single evaluation of 0.933 test accuracy. The bias--variance framing mapped directly onto these two extremes: the shallow tree exhibited high bias, and the deep tree exhibited high variance. Cross-entropy analysis of the Logistic Regression model confirmed that confidently correct predictions contribute almost no loss while confidently wrong predictions are penalized heavily, and the MLE/MAP illustration showed how regularization strength trades off between fitting the training data closely (MLE-like) and constraining the parameters toward a simpler prior belief (MAP-like).
+
+The full Python source used to produce all the results and figures in this report is listed in the appendix below, and is also included as \texttt{code/pipeline.py} along with the generated plots and \texttt{results.json} in the \texttt{outputs} folder.
+
+\section*{Appendix: Python Source Code}
+
+\lstinputlisting[style=plain, language=Python]{code/pipeline.py}
+
+\end{document}

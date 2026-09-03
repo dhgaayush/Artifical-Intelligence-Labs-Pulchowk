@@ -1,0 +1,574 @@
+\documentclass[12pt,a4paper]{article}
+
+% ── Packages ─────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{parskip}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{array}
+
+% ── Page Geometry ──────────────────────────────────────────
+\geometry{left=2.5cm, right=2.5cm, top=2.8cm, bottom=2.8cm}
+
+% ── Colour Palette ─────────────────────────────────────────
+\definecolor{primaryblue}{RGB}{0,0,0}
+\definecolor{accentblue}{RGB}{0,0,0}
+\definecolor{codebg}{RGB}{248,248,248}
+\definecolor{codeframe}{RGB}{200,200,200}
+\definecolor{darkgreen}{RGB}{0,120,60}
+\definecolor{darkred}{RGB}{160,30,30}
+
+% ── Custom Box Environments ────────────────────────────────
+\newenvironment{foplbox}%
+  {\vspace{6pt}\par\noindent{\color{accentblue}\hrule height 1pt}\vspace{4pt}\noindent\ignorespaces}%
+  {\par\nopagebreak\noindent{\color{accentblue}\hrule height 1pt}\vspace{8pt}}
+
+\newenvironment{tracebox}%
+  {\vspace{6pt}\par\noindent{\color{darkgreen}\hrule height 0.8pt}\vspace{2pt}%
+   \begin{quote}\small\ignorespaces}%
+  {\end{quote}\nopagebreak\noindent{\color{darkgreen}\hrule height 0.8pt}\vspace{6pt}}
+
+% ── Listings Style: Python ─────────────────────────────────
+\lstdefinestyle{python}{%
+  language=Python,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{primaryblue}\bfseries,
+  commentstyle=\color{gray}\itshape,
+  stringstyle=\color{darkred},
+  numberstyle=\tiny\color{gray},
+  numbers=left, numbersep=6pt,
+  backgroundcolor=\color{codebg},
+  frame=single, rulecolor=\color{codeframe},
+  breaklines=true, showstringspaces=false,
+  tabsize=2, captionpos=b,
+  xleftmargin=18pt, framexleftmargin=18pt,
+  aboveskip=10pt, belowskip=6pt
+}
+
+% ── Listings Style: Output ─────────────────────────────────
+\lstdefinestyle{output}{%
+  basicstyle=\ttfamily\small\color{white},
+  backgroundcolor=\color{black!92},
+  frame=single, rulecolor=\color{black},
+  breaklines=true, captionpos=b,
+  xleftmargin=18pt, framexleftmargin=18pt,
+  aboveskip=8pt, belowskip=4pt
+}
+
+% ── Section Formatting ─────────────────────────────────────
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{\z@}%
+  {-3.0ex \@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus.2ex}%
+  {\normalfont\Large\bfseries\color{primaryblue}}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
+  {-2.5ex\@plus -1ex \@minus -.2ex}%
+  {1.0ex \@plus .2ex}%
+  {\normalfont\large\bfseries\color{accentblue}}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@}%
+  {-2.0ex\@plus -1ex \@minus -.2ex}%
+  {0.8ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries\color{accentblue!80!black}}}
+\makeatother
+
+% ── Header / Footer ────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{Lab Report --- Agent Types in AI}}
+\fancyhead[R]{\small\textit{Aditya Shah (080BCT011)}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% ── Hyperref Setup ─────────────────────────────────────────
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=black}
+
+\begin{document}
+
+% ═══════════════════════════════════════════════════════════
+%  COVER PAGE
+% ═══════════════════════════════════════════════════════════
+\thispagestyle{empty}
+\begin{center}
+
+\vspace*{0.5cm}
+\includegraphics[width=0.25\textwidth]{../../emblem.png}\\[0.5cm]
+
+{\Large\textbf{TRIBHUVAN UNIVERSITY}}\\[0.2cm]
+{\large\textbf{INSTITUTE OF ENGINEERING}}\\[0.2cm]
+{\large\textbf{PULCHOWK CAMPUS}}\\[1cm]
+
+\rule{\textwidth}{1.5pt}\\[0.5cm]
+{\Huge\bfseries AGENT TYPES IN AI}\\[0.4cm]
+{\LARGE\bfseries Vacuum Cleaner World}\\[0.3cm]
+{\LARGE\bfseries Lab 3 Report}\\[0.2cm]
+\rule{\textwidth}{1.5pt}\\[1cm]
+
+\vspace{0.5cm}
+
+\begin{minipage}[t]{0.45\textwidth}
+\begin{flushleft}
+\textbf{\Large Submitted By:}\\[0.5cm]
+{\large Name: \textbf{Aditya Shah}}\\[0.3cm]
+{\large Roll No: \textbf{080BCT011}}\\[0.3cm]
+{\large Date: \textbf{2083-03-16}}
+\end{flushleft}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\textwidth}
+\begin{flushright}
+\textbf{\Large Submitted To:}\\[0.5cm]
+{\large Department of Electronics}\\[0.3cm]
+{\large and Computer Engineering}\\[0.3cm]
+{\large Institute of Engineering, Pulchowk Campus}
+\end{flushright}
+\end{minipage}
+
+\vfill
+
+{\large\textbf{Subject: Artificial Intelligence}}
+
+\end{center}
+\newpage
+
+% ═══════════════════════════════════════════════════════════
+%  TABLE OF CONTENTS
+% ═══════════════════════════════════════════════════════════
+\tableofcontents
+\newpage
+
+% ═══════════════════════════════════════════════════════════
+\section{Objectives}
+
+\begin{enumerate}
+  \item To understand the concept of intelligent agents and their classification in Artificial Intelligence.
+  \item To implement a \textbf{Simple Reflex Agent} for the Vacuum Cleaner World problem.
+  \item To implement a \textbf{Model-Based Agent} with internal memory for the same environment.
+  \item To compare the behaviour and decision-making of both agent types.
+  \item To analyse the advantages of maintaining internal state in agent design.
+\end{enumerate}
+
+% ═══════════════════════════════════════════════════════════
+\section{Theoretical Background}
+
+\subsection{Intelligent Agents}
+
+An \textbf{intelligent agent} is a system that perceives its environment through sensors and acts upon it through actuators. The agent function maps percept sequences to actions. Agents are classified based on their internal architecture and decision-making capabilities.
+
+\subsection{Simple Reflex Agent}
+
+A \textbf{Simple Reflex Agent} is the most basic type of intelligent agent. It selects actions based solely on the \textbf{current percept} (sensor input at that moment), using condition-action rules (if-then statements). It has \textbf{no memory} of past states.
+
+\begin{foplbox}
+\textbf{Architecture:} $\text{Percept (Current)} \rightarrow \text{Condition-Action Rules} \rightarrow \text{Action}$
+
+\textbf{Key Characteristics:}
+\begin{itemize}
+  \item Responds only to current environmental stimuli
+  \item Uses predefined rule sets (condition $\rightarrow$ action mapping)
+  \item Does not maintain any internal state or memory
+  \item Works best in fully observable environments
+  \item Extremely fast response time
+\end{itemize}
+\end{foplbox}
+
+\subsection{Model-Based Agent}
+
+A \textbf{Model-Based Agent} maintains an \textbf{internal state} (memory) to keep track of the world's history and unobserved aspects. It uses a \textbf{world model} to make decisions, combining both the current percept and stored knowledge.
+
+\begin{foplbox}
+\textbf{Architecture:} $\text{Percept (Current)} + \text{Internal State} \rightarrow \text{Update Model} \rightarrow \text{Condition-Action Rules} \rightarrow \text{Action}$
+
+\textbf{Key Characteristics:}
+\begin{itemize}
+  \item Maintains an internal representation of the environment
+  \item Updates its model based on current percepts
+  \item Can handle partially observable environments
+  \item Remembers past states and actions
+  \item Uses both current percept and internal state for decision making
+\end{itemize}
+\end{foplbox}
+
+\subsection{Vacuum Cleaner World Problem}
+
+The Vacuum Cleaner World is a classic AI problem used to demonstrate agent behaviour.
+
+\begin{table}[H]
+\centering
+\caption{Environment Specifications}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+\textbf{Parameter} & \textbf{Description} \\
+\midrule
+Rooms & Two rooms: Room A and Room B \\
+States & Each room can be either ``Clean'' or ``Dirty'' \\
+Agent Location & The vacuum agent can be in either Room A or Room B \\
+Observability & Fully observable (Simple Reflex) / Partially observable (Model-Based) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Possible Actions}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+\textbf{Action} & \textbf{Description} \\
+\midrule
+\texttt{Suck} & Clean the current room (removes dirt) \\
+\texttt{Move to A} & Navigate from current room to Room A \\
+\texttt{Move to B} & Navigate from current room to Room B \\
+\texttt{Go to A and Suck} & Navigate to Room A and clean it (Model-Based) \\
+\texttt{Go to B and Suck} & Navigate to Room B and clean it (Model-Based) \\
+\texttt{NoOp / Do Nothing} & No operation (idle) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ═══════════════════════════════════════════════════════════
+\newpage
+\section{Program 1 --- Simple Reflex Agent}
+
+\subsection{Problem Statement}
+Implement a Simple Reflex Agent for the Vacuum Cleaner World that selects actions based only on the current percept (location and room status), with no memory of past states.
+
+\subsection{Rule Table}
+
+\begin{table}[H]
+\centering
+\caption{Simple Reflex Agent Rule Table}
+\begin{tabularx}{\textwidth}{@{}lXl@{}}
+\toprule
+\textbf{Condition (Percept)} & \textbf{Action} & \textbf{Rule} \\
+\midrule
+Current room is Dirty & Suck & R1 \\
+Current room is Clean AND located in Room A & Move to B & R2 \\
+Current room is Clean AND located in Room B & Move to A & R3 \\
+Any other case (fallback) & NoOp & R4 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Algorithm}
+\begin{foplbox}
+\begin{enumerate}
+  \item Start
+  \item Read current percept (location, status) from sensors
+  \item IF status equals ``Dirty'' THEN set action = ``Suck''
+  \item ELSE IF location equals ``A'' THEN set action = ``Move to B''
+  \item ELSE IF location equals ``B'' THEN set action = ``Move to A''
+  \item ELSE set action = ``NoOp''
+  \item Return/Output the action
+  \item End
+\end{enumerate}
+\end{foplbox}
+
+\subsection{Python Implementation}
+\begin{lstlisting}[style=python, caption={Simple Reflex Agent}]
+def simple_reflex_agent(location, status):
+    # location: 'A' or 'B', status: 'Dirty' or 'Clean'
+    if status == "Dirty":
+        return "Suck"
+    elif location == "A":
+        return "Move to B"
+    elif location == "B":
+        return "Move to A"
+    else:
+        return "NoOp"
+
+# Percept Sequences to test
+percepts = [
+    ("A", "Dirty"),
+    ("A", "Clean"),
+    ("B", "Dirty"),
+    ("B", "Clean")
+]
+
+print("********** Simple Reflex Agent **********\n")
+print("Program by: Aditya Shah")
+print("Roll no: 080BCT011\n")
+
+for percept in percepts:
+    location, status = percept
+    action = simple_reflex_agent(location, status)
+    print(f"Percept: Location={location}, Status={status} -> Action: {action}")
+\end{lstlisting}
+
+\subsection{Output}
+\begin{lstlisting}[style=output, caption={Simple Reflex Agent output}]
+********** Simple Reflex Agent **********
+
+Program by: Aditya Shah
+Roll no: 080BCT011
+
+Percept: Location=A, Status=Dirty -> Action: Suck
+Percept: Location=A, Status=Clean -> Action: Move to B
+Percept: Location=B, Status=Dirty -> Action: Suck
+Percept: Location=B, Status=Clean -> Action: Move to A
+\end{lstlisting}
+
+\subsection{Discussion}
+The Simple Reflex Agent correctly responds to all four possible percepts. When a room is dirty, it immediately cleans. When a room is clean, it moves to the other room. The agent has no memory --- it does not track which rooms have been previously cleaned. This means it may revisit already-clean rooms unnecessarily.
+
+% ═══════════════════════════════════════════════════════════
+\newpage
+\section{Program 2 --- Model-Based Agent}
+
+\subsection{Problem Statement}
+Implement a Model-Based Agent for the Vacuum Cleaner World that maintains an internal memory (world model) of room statuses and uses this memory to make decisions.
+
+\subsection{World Model}
+
+\begin{foplbox}
+\textbf{Internal State:}
+\begin{verbatim}
+world_model = {"A": "Clean", "B": "Clean"}
+\end{verbatim}
+
+The agent updates \texttt{world\_model[location]} with each new percept, then queries the model to decide which room needs cleaning.
+\end{foplbox}
+
+\subsection{Rule Table}
+
+\begin{table}[H]
+\centering
+\caption{Model-Based Agent Rule Table}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+\textbf{Condition (World Model)} & \textbf{Action} \\
+\midrule
+Room A is Dirty & Go to A and Suck \\
+Room B is Dirty & Go to B and Suck \\
+Both Rooms are Clean & Do Nothing, all are clean \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Algorithm}
+\begin{foplbox}
+\begin{enumerate}
+  \item Start
+  \item Initialize \texttt{world\_model = \{"A": "Clean", "B": "Clean"\}}
+  \item Read current percept (location, status)
+  \item Update internal memory: \texttt{world\_model[location] = status}
+  \item IF \texttt{world\_model["A"]} == ``Dirty'' THEN action = ``Go to A and Suck''
+  \item ELSE IF \texttt{world\_model["B"]} == ``Dirty'' THEN action = ``Go to B and Suck''
+  \item ELSE action = ``Do Nothing, all are clean''
+  \item Return/Output the action
+  \item End (internal state persists for next cycle)
+\end{enumerate}
+\end{foplbox}
+
+\subsection{Python Implementation}
+\begin{lstlisting}[style=python, caption={Model-Based Agent}]
+# Agent's internal memory (model of the world)
+world_model = {"A": "Clean", "B": "Clean"}
+
+def model_based_agent(location, status):
+    # Update the agent's memory
+    world_model[location] = status
+
+    # Condition-Action Rules using memory
+    if world_model["A"] == "Dirty":
+        world_model["A"] = "Clean"
+        return "Go to A and Suck"
+    elif world_model["B"] == "Dirty":
+        world_model["B"] = "Clean"
+        return "Go to B and Suck"
+    else:
+        return "Do Nothing, all are clean"
+
+# Test with percept sequences
+percepts = [("A", "Dirty"), ("A", "Clean"),
+            ("B", "Dirty"), ("B", "Clean")]
+
+print("********** Model-Based Agent **********\n")
+print("Program by: Aditya Shah")
+print("Roll no: 080BCT011\n")
+print("Initial Memory:", world_model, "\n")
+
+for location, status in percepts:
+    action = model_based_agent(location, status)
+    print(f"Percept: ({location}, {status})")
+    print(f"  Action: {action}")
+    print(f"  Memory: {world_model}\n")
+\end{lstlisting}
+
+\subsection{Output}
+\begin{lstlisting}[style=output, caption={Model-Based Agent output}]
+********** Model-Based Agent **********
+
+Program by: Aditya Shah
+Roll no: 080BCT011
+
+Initially, the state model contains: {'A': 'Clean', 'B': 'Clean'}
+
+The percept sequence is (A, Dirty)
+Action: Go to A and Suck
+The state model contains: {'A': 'Clean', 'B': 'Clean'}
+
+The percept sequence is (A, Clean)
+Action: Do Nothing, all are clean
+The state model contains: {'A': 'Clean', 'B': 'Clean'}
+
+The percept sequence is (B, Dirty)
+Action: Go to B and Suck
+The state model contains: {'A': 'Clean', 'B': 'Clean'}
+
+The percept sequence is (B, Clean)
+Action: Do Nothing, all are clean
+The state model contains: {'A': 'Clean', 'B': 'Clean'}
+\end{lstlisting}
+
+\subsection{Discussion}
+The Model-Based Agent maintains an internal \texttt{world\_model} dictionary that tracks the status of both rooms. When it perceives a dirty room, it updates the model, cleans the room (sets it to ``Clean''), and returns the appropriate action. When both rooms are clean, it correctly idles with ``Do Nothing''. The key advantage over the Simple Reflex Agent is that it can reason about rooms it is not currently in.
+
+% ═══════════════════════════════════════════════════════════
+\newpage
+\section{Program 3 --- Comparison of Both Agents}
+
+\subsection{Problem Statement}
+Compare the behaviour of the Simple Reflex Agent and the Model-Based Agent side by side, highlighting the role of memory in agent decision-making.
+
+\subsection{Python Implementation}
+\begin{lstlisting}[style=python, caption={Comparison of both agents}]
+# ========== MODEL-BASED AGENT ==========
+world_model = {"A": "Clean", "B": "Clean"}
+
+def model_based_agent(location, status):
+    world_model[location] = status
+    if world_model["A"] == "Dirty":
+        world_model["A"] = "Clean"
+        return "Go to A and Suck"
+    elif world_model["B"] == "Dirty":
+        world_model["B"] = "Clean"
+        return "Go to B and Suck"
+    else:
+        return "Do Nothing"
+
+# ========== SIMPLE REFLEX AGENT ==========
+def simple_reflex_agent(location, status):
+    if status == "Dirty":
+        return "Suck"
+    elif location == "A":
+        return "Move to B"
+    elif location == "B":
+        return "Move to A"
+    else:
+        return "NoOp"
+
+# ========== COMPARISON TABLE ==========
+percepts = [("A", "Dirty"), ("A", "Clean"),
+            ("B", "Dirty"), ("B", "Clean")]
+
+print("=" * 70)
+print("COMPARISON")
+print("=" * 70)
+print(f"\n{'Percept':<15} {'Model-Based':<25} {'Simple Reflex':<20}")
+print("-" * 70)
+
+world_model = {"A": "Clean", "B": "Clean"}
+for location, status in percepts:
+    world_model = {"A": "Clean", "B": "Clean"}
+    mb_action = model_based_agent(location, status)
+    sr_action = simple_reflex_agent(location, status)
+    print(f"({location}, {status:<5})  {mb_action:<25} {sr_action}")
+\end{lstlisting}
+
+\subsection{Output}
+\begin{lstlisting}[style=output, caption={Comparison output}]
+======================================================================
+MODEL-BASED AGENT (With Memory)
+======================================================================
+
+Percept         Action                         Memory After
+----------------------------------------------------------------------
+(A, Dirty)  Go to A and Suck               {'A': 'Clean', 'B': 'Clean'}
+(A, Clean)  Do Nothing                     {'A': 'Clean', 'B': 'Clean'}
+(B, Dirty)  Go to B and Suck               {'A': 'Clean', 'B': 'Clean'}
+(B, Clean)  Do Nothing                     {'A': 'Clean', 'B': 'Clean'}
+
+======================================================================
+SIMPLE REFLEX AGENT (No Memory)
+======================================================================
+
+Percept         Action
+----------------------------------------------------------------------
+(A, Dirty)  Suck
+(A, Clean)  Move to B
+(B, Dirty)  Suck
+(B, Clean)  Move to A
+
+======================================================================
+COMPARISON
+======================================================================
+
+Percept         Model-Based               Simple Reflex
+----------------------------------------------------------------------
+(A, Dirty)  Go to A and Suck          Suck
+(A, Clean)  Do Nothing                Move to B
+(B, Dirty)  Go to B and Suck          Suck
+(B, Clean)  Do Nothing                Move to A
+
+======================================================================
+KEY DIFFERENCE
+======================================================================
+
+Model-Based Agent: Has MEMORY - remembers room statuses
+Simple Reflex Agent: NO MEMORY - acts only on current percept
+
+Example: After cleaning Room A, when seeing (A, Clean):
+- Model-Based: Does Nothing (remembers A is clean)
+- Simple Reflex: Moves to B (doesn't remember)
+\end{lstlisting}
+
+\subsection{Discussion}
+The comparison reveals the fundamental difference between the two agent types:
+
+\begin{table}[H]
+\centering
+\caption{Agent Comparison Summary}
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+\textbf{Feature} & \textbf{Simple Reflex Agent} & \textbf{Model-Based Agent} \\
+\midrule
+Memory & No memory & Maintains internal world model \\
+Decision Basis & Current percept only & Current percept + stored state \\
+Room A Clean & Moves to B (always) & Does Nothing (remembers it's clean) \\
+Room B Clean & Moves to A (always) & Does Nothing (remembers it's clean) \\
+Efficiency & May revisit clean rooms & Avoids unnecessary actions \\
+Complexity & Simple & More complex \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The Model-Based Agent is more efficient because it remembers which rooms are clean and avoids redundant cleaning operations. The Simple Reflex Agent, while simpler, may waste actions moving to already-clean rooms.
+
+% ═══════════════════════════════════════════════════════════
+\newpage
+\section{Conclusion}
+
+This lab demonstrated the implementation and comparison of two fundamental agent types in Artificial Intelligence:
+
+\begin{enumerate}
+  \item \textbf{Simple Reflex Agent}: Acts solely on the current percept using condition-action rules. It is simple and fast but lacks memory, leading to potentially redundant actions in environments where state tracking is beneficial.
+
+  \item \textbf{Model-Based Agent}: Maintains an internal world model that persists across percept cycles. This memory allows the agent to make more informed decisions by considering both current observations and past knowledge.
+
+  \item \textbf{Comparison}: The Model-Based Agent outperforms the Simple Reflex Agent in scenarios where maintaining state information leads to more efficient behaviour. The key trade-off is between simplicity (Reflex) and intelligence (Model-Based).
+\end{enumerate}
+
+The Vacuum Cleaner World problem effectively illustrates how adding internal state to an agent architecture significantly improves its decision-making capabilities, a fundamental principle in AI agent design.
+
+\end{document}

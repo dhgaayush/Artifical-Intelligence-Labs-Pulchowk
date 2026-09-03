@@ -1,0 +1,750 @@
+\documentclass[12pt,a4paper]{article}
+
+% ── Only available packages ─────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{parskip}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{array}
+
+% ── Page Geometry ──────────────────────────────────────────
+\geometry{left=2.5cm, right=2.5cm, top=2.8cm, bottom=2.8cm}
+
+% ── Colour Palette (all black ink) ─────────────────────────
+\definecolor{primaryblue}{RGB}{0,0,0}
+\definecolor{accentblue}{RGB}{0,0,0}
+\definecolor{lightblue}{RGB}{245,245,245}
+\definecolor{codebg}{RGB}{248,248,248}
+\definecolor{codeframe}{RGB}{200,200,200}
+\definecolor{darkgreen}{RGB}{0,120,60}
+\definecolor{darkred}{RGB}{160,30,30}
+
+% ── Custom Box Environments (simple, no fancy packages) ────
+
+% FOPL box: coloured top/bottom rules, no background
+\newenvironment{foplbox}%
+  {\vspace{6pt}\par\noindent{\color{accentblue}\hrule height 1pt}\vspace{4pt}\noindent\ignorespaces}%
+  {\par\nopagebreak\noindent{\color{accentblue}\hrule height 1pt}\vspace{8pt}}
+
+% Trace box: indented, small font, green top rule
+\newenvironment{tracebox}%
+  {\vspace{6pt}\par\noindent{\color{darkgreen}\hrule height 0.8pt}\vspace{2pt}%
+   \begin{quote}\small\ignorespaces}%
+  {\end{quote}\nopagebreak\noindent{\color{darkgreen}\hrule height 0.8pt}\vspace{6pt}}
+
+% Rule box: blue top/bottom rules
+\newenvironment{rulebox}%
+  {\vspace{6pt}\par\noindent{\color{accentblue}\hrule height 1pt}\vspace{4pt}\noindent\ignorespaces}%
+  {\par\nopagebreak\noindent{\color{accentblue}\hrule height 1pt}\vspace{8pt}}
+
+% ── Listings Style: Prolog ─────────────────────────────────
+\lstdefinestyle{prolog}{%
+  language=Prolog,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{primaryblue}\bfseries,
+  commentstyle=\color{gray}\itshape,
+  stringstyle=\color{darkred},
+  numberstyle=\tiny\color{gray},
+  numbers=left, numbersep=6pt,
+  backgroundcolor=\color{codebg},
+  frame=single, rulecolor=\color{codeframe},
+  breaklines=true, showstringspaces=false,
+  tabsize=2, captionpos=b,
+  xleftmargin=18pt, framexleftmargin=18pt,
+  aboveskip=10pt, belowskip=6pt
+}
+
+% ── Listings Style: Output ─────────────────────────────────
+\lstdefinestyle{output}{%
+  basicstyle=\ttfamily\small\color{white},
+  backgroundcolor=\color{black!92},
+  frame=single, rulecolor=\color{black},
+  breaklines=true, captionpos=b,
+  xleftmargin=18pt, framexleftmargin=18pt,
+  aboveskip=8pt, belowskip=4pt
+}
+
+% ── Section formatting (manual, no titlesec) ───────────────
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{\z@}%
+  {-3.0ex \@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus.2ex}%
+  {\normalfont\Large\bfseries\color{primaryblue}}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
+  {-2.5ex\@plus -1ex \@minus -.2ex}%
+  {1.0ex \@plus .2ex}%
+  {\normalfont\large\bfseries\color{accentblue}}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@}%
+  {-2.0ex\@plus -1ex \@minus -.2ex}%
+  {0.8ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries\color{accentblue!80!black}}}
+\makeatother
+
+% ── Header / Footer ────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{Lab Report --- FOPL \& Prolog Programming}}
+\fancyhead[R]{\small\textit{Chandan Kumar Shah (080BCT023)}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% ── Hyperref Setup ─────────────────────────────────────────
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=black}
+
+\begin{document}
+
+% ═══════════════════════════════════════════════════════════
+%  COVER PAGE
+% ═══════════════════════════════════════════════════════════
+\thispagestyle{empty}
+\begin{center}
+
+\vspace*{0.5cm}
+\includegraphics[width=0.25\textwidth]{../emblem.png}\\[0.5cm]
+
+{\Large\textbf{TRIBHUVAN UNIVERSITY}}\\[0.2cm]
+{\large\textbf{INSTITUTE OF ENGINEERING}}\\[0.2cm]
+{\large\textbf{PULCHOWK CAMPUS}}\\[1cm]
+
+\rule{\textwidth}{1.5pt}\\[0.5cm]
+{\Huge\bfseries FIRST ORDER PREDICATE\\[0.4cm] \bfseries LOGIC}\\[0.3cm]
+{\LARGE\bfseries Lab 2 Report}\\[0.2cm]
+\rule{\textwidth}{1.5pt}\\[1cm]
+
+\vspace{0.5cm}
+
+\begin{minipage}[t]{0.45\textwidth}
+\begin{flushleft}
+\textbf{\Large Submitted By:}\\[0.5cm]
+{\large Name: \textbf{Chandan Kumar Shah}}\\[0.3cm]
+{\large Roll No: \textbf{080BCT023}}\\[0.3cm]
+{\large Date: \textbf{2083-03-16}}
+\end{flushleft}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\textwidth}
+\begin{flushright}
+\textbf{\Large Submitted To:}\\[0.5cm]
+{\large Department of Electronics}\\[0.3cm]
+{\large and Computer Engineering}\\[0.3cm]
+{\large Institute of Engineering, Pulchowk Campus}
+\end{flushright}
+\end{minipage}
+
+\vfill
+
+{\large\textbf{Subject: Artificial Intelligence}}
+
+\end{center}
+\newpage
+
+% ═══════════════════════════════════════════════════════════
+%  TABLE OF CONTENTS
+% ═══════════════════════════════════════════════════════════
+\tableofcontents
+\newpage
+
+% ═══════════════════════════════════════════════════════════
+\section{Objectives}
+
+\begin{enumerate}
+  \item To understand First Order Predicate Logic (FOPL) and its role in knowledge representation for Artificial Intelligence.
+  \item To translate natural-language statements into FOPL and subsequently into Prolog programs.
+  \item To implement rule-based reasoning using Prolog's backward chaining (unification and backtracking).
+  \item To demonstrate both \emph{forward chaining} and \emph{backward chaining} on an inference problem.
+  \item To analyse classic AI problems---such as the Criminal/Iraq scenario and the Monkey-Banana problem---using predicate logic.
+\end{enumerate}
+
+% ═══════════════════════════════════════════════════════════
+\section{Theoretical Background}
+
+\subsection{First Order Predicate Logic (FOPL)}
+
+First Order Predicate Logic (also called \emph{predicate calculus}) extends propositional logic by introducing \textbf{predicates}, \textbf{quantifiers}, and \textbf{variables}. It allows us to make precise statements about objects and their relationships.
+
+\begin{foplbox}
+\textbf{Key components of FOPL:}
+\begin{itemize}
+  \item \textbf{Predicates:} Relations over objects --- e.g.\ $\text{Mortal}(x)$, $\text{Parent}(x,y)$.
+  \item \textbf{Constants:} Specific named objects --- e.g.\ $john$, $iraq$, $bananas$.
+  \item \textbf{Variables:} Placeholders --- e.g.\ $X$, $Y$, bound by quantifiers.
+  \item \textbf{Functions:} Map objects to objects --- e.g.\ $\text{father\_of}(x)$.
+  \item \textbf{Universal Quantifier} ($\forall$): ``for all'' --- e.g.\ $\forall x\,(\text{Man}(x) \Rightarrow \text{Mortal}(x))$.
+  \item \textbf{Existential Quantifier} ($\exists$): ``there exists'' --- e.g.\ $\exists x\,P(x)$.
+\end{itemize}
+\end{foplbox}
+
+\subsection{Mapping FOPL to Prolog}
+
+Prolog is a direct computational realisation of Horn-clause logic, a decidable subset of FOPL. The correspondence is summarised below:
+
+\begin{table}[H]
+\centering
+\caption{FOPL-to-Prolog Mapping}
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+\textbf{FOPL Construct} & \textbf{Prolog Equivalent} & \textbf{Example} \\
+\midrule
+Fact: $P(a)$ & \texttt{p(a).} & \texttt{mortal(socrates).} \\
+Rule: $\forall X\,(P(X) \Rightarrow Q(X))$ & \texttt{q(X) :- p(X).} & \texttt{mortal(X) :- man(X).} \\
+Conjunction: $A \land B$ & \texttt{A, B} & \texttt{male(X), parent(X,Y)} \\
+$\forall$ (Universal) & Capitalised variables & \texttt{criminal(X) :- \ldots} \\
+$\exists$ (Existential) & Ground facts & \texttt{has\_missile(iraq).} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Inference Strategies}
+
+\subsubsection{Backward Chaining}
+Prolog's default inference strategy. Starting from the \emph{goal}, Prolog works backwards: it finds a rule whose head matches the goal, then attempts to prove each sub-goal in the rule body. This is implemented via depth-first search with backtracking.
+
+\subsubsection{Forward Chaining}
+Forward chaining starts from known \emph{facts} and repeatedly applies rules to derive new facts until the goal is reached. Although not native to Prolog, it can be simulated using \texttt{assert/1} to add derived facts to the knowledge base iteratively.
+
+% ═══════════════════════════════════════════════════════════
+\newpage
+\section{Program 1 --- Criminal / Weapons / Iraq Problem}
+
+\subsection{Problem Statement}
+Write the following statements in FOPL and implement them as a Prolog program. Determine whether \emph{George is a criminal}.
+
+\begin{enumerate}
+  \item Every American who sells weapons to hostile nations is a criminal.
+  \item Every enemy of America is a hostile nation.
+  \item Iraq has some missiles.
+  \item All missiles of Iraq were sold by George.
+  \item George is an American.
+  \item Iraq is a country.
+  \item Iraq is the enemy of America.
+  \item Missiles are weapons.
+\end{enumerate}
+
+\subsection{FOPL Representation}
+\begin{foplbox}
+\begin{align*}
+  1.\quad & \forall X\;(\text{American}(X) \land \text{SellsWeapons}(X,Y) \land \text{Hostile}(Y) \Rightarrow \text{Criminal}(X)) \\
+  2.\quad & \forall X\;(\text{EnemyOfAmerica}(X) \Rightarrow \text{Hostile}(X)) \\
+  3.\quad & \exists X\;(\text{Missile}(X) \land \text{Owns}(iraq, X)) \\
+  4.\quad & \forall X\;(\text{Missile}(X) \land \text{Owns}(iraq,X) \Rightarrow \text{Sells}(george,X,iraq)) \\
+  5.\quad & \text{American}(george) \\
+  6.\quad & \text{Country}(iraq) \\
+  7.\quad & \text{EnemyOfAmerica}(iraq) \\
+  8.\quad & \forall X\;(\text{Missile}(X) \Rightarrow \text{Weapon}(X))
+\end{align*}
+\end{foplbox}
+
+\subsection{Prolog Implementation}
+\begin{lstlisting}[style=prolog, caption={Criminal/Iraq problem in Prolog}]
+% Facts
+enemy_of_america(iraq).
+has_missile(iraq).
+sells_weapons(george, iraq).
+american(george).
+country(iraq).
+
+% Rules
+criminal(X) :-
+    american(X),
+    sells_weapons(X, Y),
+    hostile(Y).
+
+hostile(X) :-
+    enemy_of_america(X).
+
+hostile(X) :-
+    country(X),
+    enemy_of_america(X).
+\end{lstlisting}
+
+\subsection{Inference Trace (Backward Chaining)}
+\begin{tracebox}
+\begin{verbatim}
+?- criminal(george).
+
+  Goal: criminal(george)
+    Sub-goal 1: american(george)           -> FACT  => TRUE
+    Sub-goal 2: sells_weapons(george, Y)
+                  Y = iraq                 -> FACT  => TRUE
+    Sub-goal 3: hostile(iraq)
+      Sub-goal 3a: enemy_of_america(iraq)  -> FACT  => TRUE
+    hostile(iraq) => TRUE
+  criminal(george) => TRUE
+\end{verbatim}
+\end{tracebox}
+
+\subsection{Output}
+\begin{lstlisting}[style=output, caption={Program 1 output}]
+?- criminal(george).
+true.
+
+?- hostile(iraq).
+true.
+\end{lstlisting}
+
+\subsection{Discussion}
+The program encodes eight natural-language statements as FOPL formulae and then translates them into Prolog facts and rules. The key inference is a three-step backward chain: Prolog verifies that George is American, that he sells weapons to Iraq, and that Iraq is hostile (because Iraq is an enemy of America). The conjunction of all three sub-goals proves \texttt{criminal(george)}.
+
+% ═══════════════════════════════════════════════════════════
+\newpage
+\section{Program 2 --- Monkey-Banana Problem}
+
+\subsection{Problem Statement}
+Represent the classic Monkey-Banana problem in FOPL and prove that the monkey can reach the bananas. A room contains a monkey, a chair, and bananas hanging from the ceiling. The monkey can move the chair under the bananas, climb onto the chair, and reach them.
+
+\subsection{FOPL Representation}
+\begin{foplbox}
+\textbf{Objects:} monkey, chair, bananas
+
+\textbf{Facts:}
+\begin{align*}
+  &\text{InRoom}(monkey) \quad \text{InRoom}(chair) \quad \text{InRoom}(bananas) \\
+  &\text{Dexterous}(monkey) \quad \text{Tall}(chair) \\
+  &\text{CanMove}(monkey, chair, bananas) \quad \text{CanClimb}(monkey, chair)
+\end{align*}
+
+\textbf{Rules:}
+\begin{align*}
+  &\forall X,Y\;(\text{Dexterous}(X) \land \text{Close}(X,Y) \Rightarrow \text{CanReach}(X,Y)) \\
+  &\forall X,Y,Z\;(\text{GetOn}(X,Y) \land \text{Under}(Y,Z) \land \text{Tall}(Y) \Rightarrow \text{Close}(X,Z)) \\
+  &\forall X,Y\;(\text{CanClimb}(X,Y) \Rightarrow \text{GetOn}(X,Y)) \\
+  &\forall X,Y,Z\;(\text{InRoom}(X) \land \text{InRoom}(Y) \land \text{InRoom}(Z) \\
+  &\qquad\qquad\quad \land \text{CanMove}(X,Y,Z) \Rightarrow \text{Under}(Y,Z))
+\end{align*}
+\end{foplbox}
+
+\subsection{Prolog Implementation}
+\begin{lstlisting}[style=prolog, caption={Monkey-Banana problem in Prolog}]
+% Facts
+in_room(bananas).
+in_room(chair).
+in_room(monkey).
+dexterous(monkey).
+tall(chair).
+can_move(monkey, chair, bananas).
+can_climb(monkey, chair).
+
+% Rules
+can_reach(X, Y) :-
+    dexterous(X),
+    near(X, Y).
+
+near(X, Z) :-
+    get_on(X, Y),
+    under(Y, Z),
+    tall(Y).
+
+get_on(X, Y) :-
+    can_climb(X, Y).
+
+under(Y, Z) :-
+    in_room(X),
+    in_room(Y),
+    in_room(Z),
+    can_move(X, Y, Z).
+\end{lstlisting}
+
+\subsection{Inference Trace (Backward Chaining)}
+\begin{tracebox}
+\begin{verbatim}
+?- can_reach(monkey, bananas).
+
+  Goal: can_reach(monkey, bananas)
+    Sub-goal 1: dexterous(monkey)           -> FACT  => TRUE
+    Sub-goal 2: near(monkey, bananas)
+      Sub-goal 2a: get_on(monkey, chair)
+        Sub-goal: can_climb(monkey, chair)  -> FACT  => TRUE
+      get_on(monkey, chair) => TRUE
+      Sub-goal 2b: under(chair, bananas)
+        Sub-goal: in_room(monkey)           -> FACT  => TRUE
+        Sub-goal: in_room(chair)            -> FACT  => TRUE
+        Sub-goal: in_room(bananas)          -> FACT  => TRUE
+        Sub-goal: can_move(monkey,chair,bananas) -> FACT => TRUE
+      under(chair, bananas) => TRUE
+      Sub-goal 2c: tall(chair)              -> FACT  => TRUE
+    near(monkey, bananas) => TRUE
+  can_reach(monkey, bananas) => TRUE
+\end{verbatim}
+\end{tracebox}
+
+\subsection{Output}
+\begin{lstlisting}[style=output, caption={Program 2 output}]
+?- can_reach(monkey, bananas).
+true.
+\end{lstlisting}
+
+\subsection{Discussion}
+The Monkey-Banana problem demonstrates multi-level rule chaining in Prolog. The query \texttt{can\_reach(monkey, bananas)} triggers a four-level deep inference chain through \texttt{near}, \texttt{get\_on}, and \texttt{under}. Each level requires the satisfaction of multiple sub-goals, all of which are ultimately resolved to base facts. This elegantly shows how Prolog's automatic backtracking explores the rule dependency graph without any explicit control flow from the programmer.
+
+% ═══════════════════════════════════════════════════════════
+\newpage
+\section{Assignment 1 --- Steve's Course Preference (Resolution)}
+
+\subsection{Problem Statement}
+Assume the following facts:
+\begin{itemize}
+  \item Steve only likes easy courses.
+  \item Science courses are hard.
+  \item All courses in the basket weaving department are easy.
+  \item BK301 is a basket weaving course.
+\end{itemize}
+Use resolution to answer: \emph{What course would Steve like?}
+
+\subsection{FOPL Representation}
+\begin{foplbox}
+\begin{align*}
+  1.\quad & \forall X\;(\text{likes}(steve,X) \Rightarrow \text{easy}(X))
+          \;\equiv\; \forall X\;(\text{course}(X) \land \text{easy}(X) \Rightarrow \text{likes}(steve,X)) \\
+  2.\quad & \forall X\;(\text{science\_course}(X) \Rightarrow \text{hard}(X)) \\
+  3.\quad & \forall X\;(\text{basket\_weaving\_course}(X) \Rightarrow \text{easy}(X)) \\
+  4.\quad & \text{basket\_weaving\_course}(bk301) \\
+  5.\quad & \text{course}(bk301)
+\end{align*}
+\end{foplbox}
+
+\subsection{Resolution Proof}
+To prove $\text{likes}(steve, bk301)$ by resolution:
+
+\begin{enumerate}
+  \item From (4): $\text{basket\_weaving\_course}(bk301)$ --- fact.
+  \item Apply rule (3) with $X = bk301$: $\text{basket\_weaving\_course}(bk301) \Rightarrow \text{easy}(bk301)$.\\
+        $\therefore$ $\text{easy}(bk301)$.
+  \item From (5): $\text{course}(bk301)$ --- fact.
+  \item Apply rule (1) with $X = bk301$: $\text{course}(bk301) \land \text{easy}(bk301) \Rightarrow \text{likes}(steve, bk301)$.\\
+        $\therefore$ $\text{likes}(steve, bk301)$. $\blacksquare$
+\end{enumerate}
+
+\subsection{Prolog Implementation}
+\begin{lstlisting}[style=prolog, caption={Steve's course preference in Prolog}]
+% Facts
+course(bk301).
+basket_weaving_course(bk301).
+
+% Rules
+likes(steve, X) :-
+    course(X),
+    easy(X).
+
+hard(X) :-
+    science_course(X).
+
+easy(X) :-
+    basket_weaving_course(X).
+\end{lstlisting}
+
+\subsection{Output}
+\begin{lstlisting}[style=output, caption={Assignment 1 output}]
+?- likes(steve, X).
+X = bk301.
+
+?- easy(bk301).
+true.
+
+?- likes(steve, bk301).
+true.
+\end{lstlisting}
+
+\subsection{Discussion}
+The resolution proceeds by chaining the basket-weaving fact through the ``easy'' rule, then combining it with the ``course'' fact to satisfy Steve's preference condition. The Prolog engine automatically performs this resolution through backward chaining and unification, returning \texttt{X = bk301} as the unique solution.
+
+% ═══════════════════════════════════════════════════════════
+\newpage
+\section{Assignment 2 --- Horses and Mammals}
+
+\subsection{Problem Statement}
+Write the following in FOPL, implement in Prolog, and test:
+\begin{enumerate}
+  \item Horses are mammals.
+  \item An offspring of a horse is a horse.
+  \item Bluebeard is Charlie's parent.
+  \item Offspring and parents are inverse relations.
+  \item Every mammal has a parent.
+\end{enumerate}
+Goal: \emph{Is Charlie a horse?}
+
+\subsection{FOPL Representation}
+\begin{foplbox}
+\begin{align*}
+  1.\quad & \forall X\;(\text{Horse}(X) \Rightarrow \text{Mammal}(X)) \\
+  2.\quad & \forall X,Y\;(\text{Offspring}(X,Y) \land \text{Horse}(Y) \Rightarrow \text{Horse}(X)) \\
+  3.\quad & \text{Parent}(bluebeard, charlie) \\
+  4.\quad & \forall X,Y\;(\text{Offspring}(X,Y) \Leftrightarrow \text{Parent}(Y,X)) \\
+  5.\quad & \forall X\;(\text{Mammal}(X) \Rightarrow \exists Y\;\text{Parent}(Y,X))
+\end{align*}
+Additional fact needed for inference: $\text{Horse}(bluebeard)$.
+\end{foplbox}
+
+\subsection{Prolog Implementation}
+\begin{lstlisting}[style=prolog, caption={Horses and mammals in Prolog}]
+% Facts
+parent(bluebeard, charlie).
+horse(bluebeard).
+
+% Rules
+% 1. Horses are mammals
+mammal(X) :- horse(X).
+
+% 2. Offspring of a horse is a horse
+horse(X) :-
+    offspring(X, Y),
+    horse(Y).
+
+% 4. Offspring and parent are inverse relations
+offspring(X, Y) :- parent(Y, X).
+\end{lstlisting}
+
+\subsection{Inference Trace}
+\begin{tracebox}
+\begin{verbatim}
+?- horse(charlie).
+
+  Goal: horse(charlie)
+    Sub-goal 1: offspring(charlie, Y)
+      -> parent(Y, charlie)    -> Y = bluebeard  => TRUE
+    Sub-goal 2: horse(bluebeard)  -> FACT  => TRUE
+  horse(charlie) => TRUE
+
+?- mammal(charlie).
+  Goal: mammal(charlie)
+    Sub-goal: horse(charlie)   -> (see above) => TRUE
+  mammal(charlie) => TRUE
+\end{verbatim}
+\end{tracebox}
+
+\subsection{Output}
+\begin{lstlisting}[style=output, caption={Assignment 2 output}]
+?- horse(charlie).
+true.
+
+?- mammal(charlie).
+true.
+
+?- horse(bluebeard).
+true.
+
+?- offspring(charlie, bluebeard).
+true.
+\end{lstlisting}
+
+\subsection{Discussion}
+The key inference path is: since Bluebeard is Charlie's parent (fact), Charlie is the offspring of Bluebeard (inverse relation, Rule~4). Since Bluebeard is a horse (fact), Charlie---being the offspring of a horse---is also a horse (Rule~2). Since Charlie is a horse, Charlie is also a mammal (Rule~1). This demonstrates how inverse relations and transitive inference work in Prolog through rule chaining.
+
+% ═══════════════════════════════════════════════════════════
+\newpage
+\section{Assignment 3 --- Student Evaluation (Forward \& Backward Chaining)}
+
+\subsection{Problem Statement}
+Consider the following Student Evaluation System:
+
+\begin{rulebox}
+\textbf{Rule I:} If there are chances that a student will get a good position \textbf{AND} there is no other student with marks greater than him, \textbf{Then} he will get first position.
+
+\textbf{Rule II:} If a student attends all his lectures regularly \textbf{AND} studies his course books, \textbf{Then} he will cover his course contents.
+
+\textbf{Rule III:} If a student covers his course contents, \textbf{Then} there are chances that he will get a good position.
+\end{rulebox}
+
+\textbf{Known Facts:}
+\begin{enumerate}
+  \item[(i)] A student attends all his lectures regularly.
+  \item[(ii)] A student studies his course books.
+  \item[(iii)] There is no one with marks higher than him.
+\end{enumerate}
+
+\textbf{Goal:} Show that this student will get first position using \emph{forward} and \emph{backward} chaining.
+
+\subsection{FOPL Representation}
+\begin{foplbox}
+\begin{align*}
+  \text{Rule I:}\quad  & \forall X\;(\text{GoodPosition}(X) \land \text{NoHigherMarks}(X) \Rightarrow \text{FirstPosition}(X)) \\
+  \text{Rule II:}\quad & \forall X\;(\text{AttendsLectures}(X) \land \text{StudiesBooks}(X) \Rightarrow \text{CoversCourse}(X)) \\
+  \text{Rule III:}\quad& \forall X\;(\text{CoversCourse}(X) \Rightarrow \text{GoodPosition}(X))
+\end{align*}
+\textbf{Facts:}\quad $\text{AttendsLectures}(student),\; \text{StudiesBooks}(student),\; \text{NoHigherMarks}(student)$
+\end{foplbox}
+
+\subsection{Prolog Implementation (Backward Chaining)}
+\begin{lstlisting}[style=prolog, caption={Student evaluation --- backward chaining}]
+% Facts
+attends_lectures(student).
+studies_books(student).
+no_higher_marks(student).
+
+% Rule II: Covers course if attends lectures AND studies books
+covers_course(X) :-
+    attends_lectures(X),
+    studies_books(X).
+
+% Rule III: Good position if covers course
+good_position(X) :-
+    covers_course(X).
+
+% Rule I: First position if good position AND no higher marks
+first_position(X) :-
+    good_position(X),
+    no_higher_marks(X).
+\end{lstlisting}
+
+\subsection{Backward Chaining Trace}
+\begin{tracebox}
+\textbf{Goal:} \texttt{first\_position(student)}
+\begin{verbatim}
+  first_position(student)
+    |- good_position(student)  AND  no_higher_marks(student)
+    |     |                              |
+    |     |                              +-> FACT => TRUE
+    |     |
+    |     +-> covers_course(student)
+    |              |
+    |              +-> attends_lectures(student)  -> FACT => TRUE
+    |              +-> studies_books(student)      -> FACT => TRUE
+    |           => TRUE
+    |
+    +-> TRUE  AND  TRUE
+  => TRUE   (Q.E.D.)
+\end{verbatim}
+\end{tracebox}
+
+\subsection{Forward Chaining Trace}
+\begin{tracebox}
+Forward chaining starts from known facts and applies rules to derive new facts:
+
+\begin{tabular}{@{}clp{8cm}@{}}
+\toprule
+\textbf{Step} & \textbf{Rule} & \textbf{Derivation} \\
+\midrule
+1 & Rule II &
+  \texttt{attends\_lectures(student)} $\land$ \texttt{studies\_books(student)}
+  $\Rightarrow$ \textbf{covers\_course(student)} \\[6pt]
+2 & Rule III &
+  \texttt{covers\_course(student)}
+  $\Rightarrow$ \textbf{good\_position(student)} \\[6pt]
+3 & Rule I &
+  \texttt{good\_position(student)} $\land$ \texttt{no\_higher\_marks(student)}
+  $\Rightarrow$ \textbf{first\_position(student)} $\blacksquare$ \\
+\bottomrule
+\end{tabular}
+\end{tracebox}
+
+\subsection{Forward Chaining in Prolog}
+\begin{lstlisting}[style=prolog, caption={Forward chaining using assert/1}]
+:- dynamic derived/1.
+
+forward_chain :-
+    % Step 1: Rule II
+    (   attends_lectures(S), studies_books(S),
+        \+ derived(covers_course(S))
+    ->  assert(derived(covers_course(S))),
+        format('Step 1 (Rule II):  Derived covers_course(~w)~n', [S])
+    ;   true),
+    % Step 2: Rule III
+    (   derived(covers_course(S)),
+        \+ derived(good_position(S))
+    ->  assert(derived(good_position(S))),
+        format('Step 2 (Rule III): Derived good_position(~w)~n', [S])
+    ;   true),
+    % Step 3: Rule I
+    (   derived(good_position(S)), no_higher_marks(S),
+        \+ derived(first_position(S))
+    ->  assert(derived(first_position(S))),
+        format('Step 3 (Rule I):   Derived first_position(~w)~n', [S])
+    ;   true).
+\end{lstlisting}
+
+\subsection{Output}
+\begin{lstlisting}[style=output, caption={Assignment 3 output}]
+% Backward Chaining
+?- first_position(student).
+true.
+
+% Forward Chaining
+?- forward_chain.
+Step 1 (Rule II):  Derived covers_course(student)
+Step 2 (Rule III): Derived good_position(student)
+Step 3 (Rule I):   Derived first_position(student)
+true.
+
+?- derived(first_position(student)).
+true.
+\end{lstlisting}
+
+\subsection{Discussion}
+This assignment explicitly demonstrates both inference strategies:
+
+\begin{description}
+  \item[Backward Chaining]
+  Prolog starts from the goal \texttt{first\_position(student)} and recursively decomposes it into sub-goals until all sub-goals are resolved to known facts. The search is top-down and goal-driven.
+
+  \item[Forward Chaining]
+  Starting from the three known facts, rules are applied in sequence to derive new facts: first \texttt{covers\_course}, then \texttt{good\_position}, and finally \texttt{first\_position}. The process is bottom-up and data-driven. We simulate this in Prolog using \texttt{assert/1} to dynamically add derived facts to the knowledge base.
+\end{description}
+
+Both strategies arrive at the same conclusion: \textbf{the student will get first position}. This confirms the soundness and completeness of the inference for this knowledge base.
+
+% ═══════════════════════════════════════════════════════════
+\newpage
+\section{Summary and Comparative Analysis}
+
+\begin{table}[H]
+\centering
+\caption{Summary of all programs and inference characteristics}
+\begin{tabularx}{\textwidth}{@{}lXcc@{}}
+\toprule
+\textbf{Program} & \textbf{Key FOPL Concepts} & \textbf{Chain Depth} & \textbf{Strategy} \\
+\midrule
+Program 1 (Criminal) & Universal quantification, conjunction & 3 levels & Backward \\
+Program 2 (Monkey-Banana) & Multi-predicate chaining & 4 levels & Backward \\
+Assignment 1 (Steve) & Resolution, transitive rules & 2 levels & Backward \\
+Assignment 2 (Horses) & Biconditional (inverse), inheritance & 3 levels & Backward \\
+Assignment 3 (Student Eval) & Forward + Backward comparison & 3 levels & Both \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Key Observations}
+\begin{enumerate}
+  \item \textbf{FOPL to Prolog mapping is systematic:} Universal quantifiers become Prolog variables; implications become rules (\texttt{:-}); conjunctions become comma-separated sub-goals.
+  \item \textbf{Backward chaining is goal-driven:} Prolog always starts from the query and works backward to facts. This is efficient when the goal space is small.
+  \item \textbf{Forward chaining is data-driven:} Starting from facts, new conclusions are derived iteratively. This is useful when the fact base is small and many conclusions can be drawn.
+  \item \textbf{Rule ordering matters in Prolog:} The sequence of clauses and sub-goals affects the search path and efficiency, even though the logical meaning remains unchanged.
+  \item \textbf{Inverse relations} (as in Assignment~2) are naturally expressed as bidirectional rules in Prolog.
+\end{enumerate}
+
+% ═══════════════════════════════════════════════════════════
+\section{Conclusion}
+
+This laboratory exercise provided comprehensive experience with First Order Predicate Logic and its computational realisation in Prolog. The key takeaways are:
+
+\begin{enumerate}
+  \item \textbf{Knowledge Representation:} FOPL provides a rigorous formal language for representing real-world knowledge. Natural-language statements about criminals, animals, students, and course preferences were systematically translated into predicate logic and then into executable Prolog programs.
+
+  \item \textbf{Automated Reasoning:} Prolog's inference engine automatically performs resolution, unification, and backtracking to derive conclusions. The programmer only needs to specify \emph{what} is true (facts and rules); the engine determines \emph{how} to prove a query.
+
+  \item \textbf{Inference Strategies:} The Student Evaluation assignment demonstrated that both forward chaining (data-driven) and backward chaining (goal-driven) reach identical conclusions, confirming the logical soundness of the knowledge base. Understanding both strategies is essential for designing expert systems.
+
+  \item \textbf{Rule Chaining:} Multi-level inference chains (as in the Monkey-Banana and Criminal problems) show how simple rules compose to solve complex reasoning problems---a foundational concept in AI knowledge-based systems.
+\end{enumerate}
+
+% ═══════════════════════════════════════════════════════════
+\section{References}
+\begin{enumerate}
+  \item Bratko, I. (2012). \textit{Prolog Programming for Artificial Intelligence} (4th ed.). Pearson Education.
+  \item Clocksin, W. F., \& Mellish, C. S. (2003). \textit{Programming in Prolog} (5th ed.). Springer-Verlag.
+  \item Russell, S., \& Norvig, P. (2021). \textit{Artificial Intelligence: A Modern Approach} (4th ed.). Pearson.
+  \item Nilsson, U., \& Maluszynski, J. (1995). \textit{Logic, Programming and Prolog} (2nd ed.). John Wiley \& Sons.
+  \item SWI-Prolog Documentation. \url{https://www.swi-prolog.org/pldoc/}
+\end{enumerate}
+
+\end{document}

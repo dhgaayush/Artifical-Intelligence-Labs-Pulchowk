@@ -1,0 +1,23 @@
+{
+  "room": {
+    "rows": 20,
+    "columns": 40,
+    "obstacle_cells": 100,
+    "paintable_cells": 700
+  },
+  "shared_validation_starts": 8,
+  "transferred_empty_champion": {
+    "mean": 0.9564285714285714,
+    "best": 1.0,
+    "worst": 0.8771428571428571,
+    "paintable_cells": 700,
+    "mean_steps": 2187.25
+  },
+  "furnished_champion": {
+    "mean": 0.9814285714285714,
+    "best": 1.0,
+    "worst": 0.9271428571428572,
+    "paintable_cells": 700,
+    "mean_steps": 2288.875
+  }
+}

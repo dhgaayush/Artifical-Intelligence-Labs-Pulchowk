@@ -1,0 +1,272 @@
+BCT III/II                                                                                     1
+
+
+
+                              Artificial Intelligence (AI)
+                                   Lab Sheet No: 2
+
+
+Introduction to First Order Predicate Logic (FOPL)
+The use of symbolic logic to represent knowledge is not new in that it predates the modern
+computer by a number of decades. Even so, the application of logic as a practical means of
+representing and manipulating knowledge was not demonstrated until the early 1960s. Today
+First Order Predicate Logic (FOPL) or predicate calculus has assumed one of the important roles
+in AI for representing the knowledge.
+
+The understanding of FOPL for AI student has several benefits. One, logic offers the formal
+approach to reasoning that has a sound theoretical foundation. Next, the structure of FOPL is
+flexible enough to permit the accurate representation of the natural language reasonably well.
+
+1. The predicates of FOPL have precisely the same syntactic structure as they have in Prolog -
+   i.e. a predicate name with terms as arguments, each term being a
+
+-constant,
+
+-variable, or
+
+-funcion with term(s) as argument(s).
+
+2. Variables must be quantified by either
+      " (Universal Quantifier) meaning "for all" or
+      $ (Existential Quantifier) meaning "there exists"
+
+e.g $ x P(x) means "some unspecified constant has property P". Each quantifier has a SCOPE
+which is defined as the textual area in which it binds occurrences of its variable. This scope is
+usually delimited by brackets, unless it is obvious as in the example above.
+
+These extensions critically extend the expressive power of logic. Consider the following
+sentences which are given a natural corresponding syntax in predicate calculus:
+
+Natural Language                        Predicate
+
+John is the brother of Jim.             brother_of(john,jim).
+
+Socrates is dead and buried.            dead(socrates)&buried(socrates).
+BCT III/II                                                                                           2
+
+
+
+All men are mortal.                      "x(Man(x) Þ Mortal(x))
+
+Ram loves all animals.                   "xAnimals(x) Þ Loves(ram, x)
+
+Poppy is a dog.                          Dog (Poppy )
+Grandparent is a parent of one’s         x, yGrandparent ( x, y)  zParent ( x, z )  Parent ( z, y)
+parent
+Parent and child are inverse relation.   x, yParent ( x, y)  Child ( y, x)
+
+
+
+Rules combine facts to increase knowledge of the system
+       son(X,Y):-
+               male(X),child(X).
+       X is a son of Y if X is male and X is a child of Y.
+
+
+Program 1:Write the following statements in FOPL form and by converting them into prolog
+program test the given goal.
+
+   1. Every American who sells weapons to hostile nations is a criminal.
+
+   2. Every enemy of America is a hostile.
+
+   3. Iraque has some missiles.
+
+   4. All missiles of Iraque were sold by George.
+
+   5. George is an American.
+
+   6. Iraque is a country.
+
+   7. Iraque is the enemy of America.
+
+   8. Missiles are weapens.
+
+
+
+PROGRAM
+
+PREDICATES
+hostile(STRING)
+enemy_of_america(STRING)
+american(STRING)
+criminal(STRING)
+BCT III/II                                                                                    3
+
+
+
+sells_missiles(STRING, STRING)
+has_missile(STRING)
+country(STRING)
+
+
+CLAUSES
+criminal(X):-
+       american(X), sells_missiles(X, Y), hostile(Y).
+enemy_of_america(X) :-
+       hostile(X).
+enemy_of_america("Iraq").
+
+
+hostile(X):-
+       country(X).
+has_missile("Iraq").
+sells_missiles("George", "Iraq").
+american("George").
+country("Iraq").
+
+
+GOAL
+criminal("George").
+
+
+
+Program 2:Monkey- Banana Problem
+Monkey-Banana Problem is the famous problem in AI. Where there is a room containing a
+monkey, a chair, and bananas that have been hung from the center of the ceiling of the room; out
+of reach from monkey. If the monkey is cleaver enough, he can reach the bananas by placing the
+chair directly below the bananas and climbing on the top of the chair.
+
+Now the problem is to use FOPL to represent this monkey-banana problem and prove that
+monkey can reach the bananas.
+
+The program is given below. Before running the program, think carefully what are the essential
+objects of the problem and how should them be arranged in predicate logic.
+
+PREDICATES
+in_room(symbol)
+BCT III/II                                                                            4
+
+
+
+dexterous(symbol)
+tall(symbol)
+can_move(symbol,symbol,symbol)
+can_reach(symbol,symbol)
+get_on(symbol,symbol)
+can_climb(symbol,symbol)
+close(symbol,symbol)
+under(symbol,symbol)
+can_climb(symbol,symbol)
+
+CLAUSES
+in_room(bananas).
+in_room(chair).
+in_room(monkey).
+dexterous(monkey).
+tall(chair).
+can_move(monkey,chair,bananas).
+can_climb(monkey,chair).
+
+can_reach(X,Y):-
+     dexterous(X),close(X,Y).
+
+close(X,Z):-
+     get_on(X,Y),
+     under(Y,Z),
+     tall(Y).
+get_on(X,Y):-
+     can_climb(X,Y).
+
+under(Y,Z):-
+     in_room(X),
+     in_room(Y),
+     in_room(Z),
+     can_move(X,Y,Z).
+
+GOAL
+can_reach(monkey,appple)
+
+
+Program 2:Write the following statements in FOPL form and by converting them into prolog
+program test the given goal.
+BCT III/II                                                                 5
+
+
+
+   9. Every American who sells weapons to hostile nations is a criminal.
+
+   10. Every enemy of America is a hostile.
+
+   11. Iraque has some missiles.
+
+   12. All missiles of Iraque were sold by George.
+
+   13. George is an American.
+
+   14. Iraque is a country.
+
+   15. Iraque is the enemy of America.
+
+   16. Missiles are weapens.
+
+
+
+PROGRAM
+
+PREDICATES
+hostile(STRING)
+enemy_of_america(STRING)
+american(STRING)
+criminal(STRING)
+sells_missiles(STRING, STRING)
+has_missile(STRING)
+country(STRING)
+
+
+CLAUSES
+criminal(X):-
+       american(X), sells_missiles(X, Y), hostile(Y).
+enemy_of_america(X) :-
+       hostile(X).
+enemy_of_america("Iraq").
+
+
+hostile(X):-
+       country(X).
+has_missile("Iraq").
+BCT III/II                                                                               6
+
+
+
+sells_missiles("George", "Iraq").
+american("George").
+country("Iraq").
+
+
+GOAL
+criminal("George").
+
+
+
+Assignments: Write the following statements in FOPL form and by converting them into prolog
+program test the different goals.
+
+   1. Assume the following facts:
+
+   ● Steve only likes easy courses
+   ● Science courses are hard
+   ● All the courses in the basket weaving department are easy
+   ● BK301 is a basket weaving course
+Use resolution to answer the question, "What course would Steve like?"
+
+
+   2. Write the following statements in FOPL form and by converting them into prolog
+      program test the different goals.
+
+   1. Horses are mammals.
+
+   2. An offspring of a horse is a horse.
+
+   3. Bluebeard is a Charlie’s parent.
+
+   4. Offspring and parents are inverse relations.
+
+   5. Every mammal has a parent.
+
+   Now check, is Charlie a horse?
+
+   3. Write the following statements in FOPL form and by converting them into prolog
+      program test the different goals.
+BCT III/II   7
+
